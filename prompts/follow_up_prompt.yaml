@@ -1,0 +1,15 @@
+name: Follow up detector Prompt
+version: v1
+description : Detect if the asked query is a follow up question or not
+
+messages:
+  - role: system
+    content: |
+      Detect if the user is asking a follow-up question or not. Use prior objective + summary to evaluate. Output strict JSON
+    
+  - role: user
+    content: |
+      Question: {user}
+      prior_objective: {prior_objective}
+      prior_summary: {prior_summary}
+      Output:

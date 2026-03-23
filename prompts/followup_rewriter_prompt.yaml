@@ -1,0 +1,19 @@
+name: follow up rewriter
+version: v1
+description: Will rewrite the query based on the previous query so that it would make sense for followup questions
+
+messages:
+  - role: system
+    content: |
+      You are given a previous question summary and a current query.
+      If the current query depends on the previous one, rewrite it into a complete standalone question.
+    
+  - role: user
+    content: |
+      Previous question summary:
+      {last_result_summary}
+
+      Current query:
+      {current_query}
+
+      Return only the rewritten query.
