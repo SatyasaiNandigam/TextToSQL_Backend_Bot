@@ -16,16 +16,6 @@ messages:
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       Verify every table and column name exists in the provided schema.
 
-      Critical column names for this schema:
-        - orders:          order_id, user_id, grand_total, created_at, status, discount, tax, shipping_fee
-        - users:           user_id, city, full_name, email
-        - order_items:     item_id, order_id, variant_id, total_price, quantity, unit_price
-        - product_variants: variant_id, product_id, sku, stock_qty, price
-        - products:        product_id, name, category_id, brand_id, base_price
-        - categories:      category_id, name, parent_category_id
-        - payments:        payment_id, order_id, method, status, amount, gateway
-        - reviews:         review_id, product_id, user_id, rating, body, created_at
-
       If any table or column does not exist in the schema → INVALID.
 
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

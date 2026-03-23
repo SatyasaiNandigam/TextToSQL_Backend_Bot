@@ -1,6 +1,7 @@
-from llm.groq_client import GroqClient
+# from llm.groq_client import GroqClient
+from llm.openai_client import OpenAIClient
 from core.prompt_registry import prompt_registry
-llm = GroqClient().get_llm()
+llm = OpenAIClient().get_llm()
 
 
 
