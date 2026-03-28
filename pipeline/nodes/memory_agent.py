@@ -7,7 +7,7 @@ def memory_agent(state):
     if state.retry_count >= 3:
         return {
         "last_user_query": state.resolved_query or state.current_user_query,
-        "last_objective": state.plan[0].objective,
+        "last_objective": state.plan[0].objective if state.plan else "N/A",
         "last_result_summary": None,
         "last_row_count": None,
         "messages": [AIMessage(content="Not able to answer this question. Maximum try limit reached")]

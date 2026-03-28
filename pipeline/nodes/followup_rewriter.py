@@ -8,20 +8,20 @@ prompt_registry.load_prompts()
 
 
 def followup_rewriter(state):
-    
-    if not state.followup.is_followup == 'True':
+
+    if state.followup.is_followup != 'true':
         state.resolved_query = state.current_user_query
         return state
-    
+
     prompt = prompt_registry.get("followup_rewriter").invoke(input={
         "last_result_summary": state.last_result_summary,
         "current_query": state.current_user_query
     })
-    
+
     response = llm.with_structured_output(FollowUpReWriterSchema).invoke(prompt)
     print(response)
-    
-    # state.resolved_query = rewritten.strip()
+
+    state.resolved_query = response.rewritten_query.strip()
     return state
 
 

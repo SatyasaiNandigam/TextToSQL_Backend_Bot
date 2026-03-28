@@ -19,6 +19,7 @@ def followup_detector(state):
         "prior_summary": state.last_result_summary or "N/A",
     })
     dec = llm.with_structured_output(FollowUpSchema).invoke(prompt)
+    print("follow up status: ", dec)
     state.followup = dec
     
     return state
