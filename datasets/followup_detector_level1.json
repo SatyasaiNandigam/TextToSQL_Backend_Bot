@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "scenario": "New query with no prior context",
+    "current_query": "How many users registered last month?",
+    "prior_objective": "N/A",
+    "prior_summary": "N/A",
+    "expected_is_followup": "false",
+    "expected_type": "new"
+  },
+  {
+    "id": 2,
+    "scenario": "New unrelated query despite prior context",
+    "current_query": "What is the average order value?",
+    "prior_objective": "Count orders by city",
+    "prior_summary": "Question: How many orders came from each city? Objective: Group orders by city, count order_ids. Result: 12 rows. Answered: Mumbai led with 234 orders, Delhi second with 189 orders, Bangalore third with 145 orders.",
+    "expected_is_followup": "false",
+    "expected_type": "new"
+  },
+  {
+    "id": 3,
+    "scenario": "Explicit explain request",
+    "current_query": "Can you explain these results?",
+    "prior_objective": "Top 10 products by units sold",
+    "prior_summary": "Question: What are the top 10 products by total units sold? Objective: Join order_items with product_variants and products, group by product name, sum quantity. Result: 10 rows. Answered: Adidas Ultraboost 22 led with 65 units, Nike Running Shorts second with 50 units, Sony Alpha Camera third with 47 units.",
+    "expected_is_followup": "true",
+    "expected_type": "explain"
+  },
+  {
+    "id": 4,
+    "scenario": "Why question after category revenue result",
+    "current_query": "Why is Electronics so high?",
+    "prior_objective": "Revenue by product category",
+    "prior_summary": "Question: What is the total revenue by product category? Objective: Join orders, order_items, products, categories; group by category name; sum total_amount. Result: 8 rows. Answered: Electronics dominated with Rs 4.2M revenue, Clothing second at Rs 2.1M, Home Decor third at Rs 1.5M.",
+    "expected_is_followup": "true",
+    "expected_type": "explain"
+  },
+  {
+    "id": 5,
+    "scenario": "Show me a chart",
+    "current_query": "Show me a chart of this",
+    "prior_objective": "Order count per month for 2024",
+    "prior_summary": "Question: How many orders were placed each month in 2024? Objective: Group orders by month where year=2024, count order_ids. Result: 12 rows. Answered: Order volume peaked in December with 340 orders and dipped in February with 89 orders.",
+    "expected_is_followup": "true",
+    "expected_type": "visualize"
+  },
+  {
+    "id": 6,
+    "scenario": "Plot as bar chart",
+    "current_query": "Plot that as a bar chart",
+    "prior_objective": "Top 5 cities by total revenue",
+    "prior_summary": "Question: Which are the top 5 cities by total revenue? Objective: Join orders with users, group by city, sum total_amount, order desc limit 5. Result: 5 rows. Answered: Mumbai topped with Rs 1.8M, Delhi second at Rs 1.3M, Bangalore third at Rs 1.1M.",
+    "expected_is_followup": "true",
+    "expected_type": "visualize"
+  },
+  {
+    "id": 7,
+    "scenario": "Reduce limit from prior result",
+    "current_query": "Show me only the top 5",
+    "prior_objective": "Top 10 products by sales revenue",
+    "prior_summary": "Question: What are the top 10 products by total sales? Objective: Join order_items with products, sum total_amount per product, order desc limit 10. Result: 10 rows. Answered: Nike Running Shoes led with Rs 320K, Adidas Ultraboost second at Rs 280K.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 8,
+    "scenario": "Add filter condition to prior result",
+    "current_query": "Filter those to only cancelled orders",
+    "prior_objective": "All orders placed in Q4 2024",
+    "prior_summary": "Question: List all orders placed in Q4 2024. Objective: Filter orders where created_at between Oct 1 and Dec 31 2024. Result: 450 rows with columns: order_id, user_id, total_amount, status. Answered: Q4 saw 450 orders totalling Rs 2.3M across all statuses.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 9,
+    "scenario": "Regroup by different dimension",
+    "current_query": "Now group those by category instead",
+    "prior_objective": "Revenue grouped by city",
+    "prior_summary": "Question: What is the total revenue by city? Objective: Join orders with users, group by city, sum total_amount. Result: 15 rows. Answered: Mumbai led with Rs 1.8M revenue, Delhi Rs 1.3M, Bangalore Rs 1.1M.",
+    "expected_is_followup": "true",
+    "expected_type": "regroup"
+  },
+  {
+    "id": 10,
+    "scenario": "Change aggregation metric",
+    "current_query": "Show total revenue instead of count",
+    "prior_objective": "Count of orders per product",
+    "prior_summary": "Question: How many orders does each product appear in? Objective: Join order_items with products, count distinct order_ids per product, order desc. Result: 50 rows. Answered: Adidas Ultraboost appeared in 65 orders, most of any single product.",
+    "expected_is_followup": "true",
+    "expected_type": "regroup"
+  },
+  {
+    "id": 11,
+    "scenario": "Ask for more detail on specific entity from prior result",
+    "current_query": "Tell me more about Adidas Ultraboost",
+    "prior_objective": "Top 10 products by units sold",
+    "prior_summary": "Question: What are the top 10 products by units sold? Objective: Join order_items with product_variants and products, sum quantity. Result: 10 rows. Answered: Adidas Ultraboost 22 led with 65 units, Nike Running Shorts second with 50 units.",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  },
+  {
+    "id": 12,
+    "scenario": "Focus on one city from a city-level result",
+    "current_query": "Show all orders from Mumbai specifically",
+    "prior_objective": "Count of orders by city",
+    "prior_summary": "Question: How many orders came from each city? Objective: Join orders with users, group by city, count order_ids. Result: 12 cities. Answered: Mumbai led with 234 orders, Delhi second with 189 orders, Bangalore third with 145 orders.",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  },
+  {
+    "id": 13,
+    "scenario": "Switch category after Electronics result",
+    "current_query": "What about Sports?",
+    "prior_objective": "List products in Electronics category",
+    "prior_summary": "Question: What products are in the Electronics category? Objective: Join products with categories where category_name = Electronics. Result: 24 rows. Answered: Found 24 electronics products including Sony Xperia, Philips Electric Kettle, and Samsung TV.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 14,
+    "scenario": "Shift time window back one period",
+    "current_query": "What about the week before?",
+    "prior_objective": "Order count for last week",
+    "prior_summary": "Question: How many orders were placed last week? Objective: Filter orders where created_at in the past 7 days. Result: 1 row with order_count = 87. Answered: 87 orders were placed last week with total revenue of Rs 430K.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 15,
+    "scenario": "Completely unrelated query after prior context",
+    "current_query": "List all users who signed up today",
+    "prior_objective": "Top brands by sales revenue",
+    "prior_summary": "Question: Which brands have the highest sales revenue? Objective: Join order_items with products and brands, group by brand, sum revenue. Result: 10 rows. Answered: Nike led with Rs 890K, Adidas second at Rs 750K, Sony third at Rs 620K.",
+    "expected_is_followup": "false",
+    "expected_type": "new"
+  }
+]

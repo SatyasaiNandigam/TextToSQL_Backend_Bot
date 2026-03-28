@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "scenario": "Very terse single-word temporal shift with rich prior context",
+    "current_query": "And in Q1?",
+    "prior_objective": "Total revenue for Q4 2024",
+    "prior_summary": "Question: What was the total revenue in Q4 2024? Objective: Sum order total_amounts where created_at between Oct 1 and Dec 31 2024. Result: 1 row with total_revenue = 2345000. Answered: Q4 2024 generated Rs 23.45 lakh in total revenue with December being the strongest month at Rs 9.8 lakh.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 2,
+    "scenario": "Query phrased like a followup but no prior context exists",
+    "current_query": "Show me more details about the top products",
+    "prior_objective": "N/A",
+    "prior_summary": "N/A",
+    "expected_is_followup": "false",
+    "expected_type": "new"
+  },
+  {
+    "id": 3,
+    "scenario": "Ask for percentage breakdown of absolute numbers from prior result",
+    "current_query": "What percentage does each category contribute to total revenue?",
+    "prior_objective": "Revenue breakdown by product category",
+    "prior_summary": "Question: What is the total revenue by product category? Objective: Join orders, order_items, products, categories; group by category_name; sum total_amount. Result: 8 rows. Answered: Electronics Rs 4.2M, Clothing Rs 2.1M, Home Decor Rs 1.5M, Sports Rs 1.2M, Beauty Rs 0.9M, Footwear Rs 0.7M, Books Rs 0.3M, Toys Rs 0.2M.",
+    "expected_is_followup": "true",
+    "expected_type": "regroup"
+  },
+  {
+    "id": 4,
+    "scenario": "Compare prior year-level result with a different year",
+    "current_query": "Compare that with last year's numbers",
+    "prior_objective": "Monthly order counts for 2024",
+    "prior_summary": "Question: How many orders were placed each month in 2024? Objective: Group orders by month where year=2024, count order_ids. Result: 12 rows. Answered: 2024 saw highest volume in December (340 orders) and lowest in February (89 orders). Annual total: 2,156 orders worth Rs 1.85 crore.",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  },
+  {
+    "id": 5,
+    "scenario": "Re-rank prior result by a different metric",
+    "current_query": "Now show me the top 10 by revenue instead of units",
+    "prior_objective": "Top 10 products by units sold",
+    "prior_summary": "Question: What are the top 10 products by total units sold? Objective: Join order_items with product_variants and products, group by product name, sum quantity. Result: 10 rows. Answered: Adidas Ultraboost led with 65 units, Nike Running Shorts second with 50 units, Sony Alpha Camera third with 47 units.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 6,
+    "scenario": "Ask if prior result is good relative to a benchmark",
+    "current_query": "Is that good? How does it compare to benchmarks?",
+    "prior_objective": "Average order value across all orders",
+    "prior_summary": "Question: What is the average order value? Objective: Calculate AVG(total_amount) from orders table across all completed orders. Result: 1 row with avg_order_value = 1847.50. Answered: The average order value is Rs 1,847.50 across all completed orders in the database.",
+    "expected_is_followup": "true",
+    "expected_type": "explain"
+  },
+  {
+    "id": 7,
+    "scenario": "Request visualization of a specific column from prior result",
+    "current_query": "Can you show me a line graph of the monthly_revenue column?",
+    "prior_objective": "Monthly revenue totals for 2024",
+    "prior_summary": "Question: What was the monthly revenue for 2024? Objective: Group orders by month, sum total_amount as monthly_revenue. Result: 12 rows with columns: month, monthly_revenue. Answered: Revenue grew from Rs 89K in January to Rs 412K in December with a notable dip in Q2.",
+    "expected_is_followup": "true",
+    "expected_type": "visualize"
+  },
+  {
+    "id": 8,
+    "scenario": "Explore other products from a brand seen in prior result",
+    "current_query": "What other products does Nike sell?",
+    "prior_objective": "Top 10 products by total sales revenue",
+    "prior_summary": "Question: What are the top 10 products by revenue? Objective: Join order_items with products; sum revenue per product; order desc limit 10. Result: 10 rows. Answered: Nike Running Shoes led with Rs 320K, Adidas Ultraboost second at Rs 280K, Nike Air Max third at Rs 245K.",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  },
+  {
+    "id": 9,
+    "scenario": "Roll up city-level result to a national aggregate",
+    "current_query": "What is the combined total across all cities?",
+    "prior_objective": "Revenue broken down by city",
+    "prior_summary": "Question: What is the revenue from each city? Objective: Join orders with users, group by city, sum total_amount. Result: 15 rows. Answered: Mumbai led with Rs 1.8M, Delhi Rs 1.3M, Bangalore Rs 1.1M, Chennai Rs 0.9M, Hyderabad Rs 0.7M. Remaining 10 cities share Rs 1.2M.",
+    "expected_is_followup": "true",
+    "expected_type": "regroup"
+  },
+  {
+    "id": 10,
+    "scenario": "New question on same entity type but completely different intent",
+    "current_query": "How many products currently have zero stock?",
+    "prior_objective": "Top 10 products by revenue",
+    "prior_summary": "Question: Which products generated the most revenue? Objective: Join order_items with product_variants and products; group by product name; sum revenue. Result: 10 rows. Answered: Nike Running Shoes led with Rs 320K, Adidas Ultraboost second at Rs 280K.",
+    "expected_is_followup": "false",
+    "expected_type": "new"
+  },
+  {
+    "id": 11,
+    "scenario": "Statistical refinement using outlier exclusion concept",
+    "current_query": "Exclude the outliers and recalculate",
+    "prior_objective": "Average order value by customer segment",
+    "prior_summary": "Question: What is the average order value by customer segment? Objective: Join orders with users, group by user_segment, calculate AVG(total_amount). Result: 5 rows. Answered: Premium users averaged Rs 4,200 while standard users averaged Rs 1,100. A few high-value premium orders above Rs 50,000 may be skewing the premium average significantly.",
+    "expected_is_followup": "true",
+    "expected_type": "refine"
+  },
+  {
+    "id": 12,
+    "scenario": "Drill into yearly aggregate by requesting monthly breakdown",
+    "current_query": "Break it down month by month",
+    "prior_objective": "Total revenue for the year 2024",
+    "prior_summary": "Question: What was the total revenue for 2024? Objective: Sum all order total_amounts for year 2024. Result: 1 row with total_revenue = 18500000. Answered: 2024 generated a total revenue of Rs 1.85 crore across all product categories and regions.",
+    "expected_is_followup": "true",
+    "expected_type": "regroup"
+  },
+  {
+    "id": 13,
+    "scenario": "Ask for domain term explanation in context of prior result",
+    "current_query": "What does SKU mean in this context?",
+    "prior_objective": "Inventory report at SKU level",
+    "prior_summary": "Question: What is the current inventory by SKU? Objective: Join product_variants with products, display SKU code, product name, and stock_quantity. Result: 150 rows. Answered: Found 150 unique SKUs. SKU PV-001 (Nike Running Shoes Size 10) has 45 units in stock, SKU PV-002 (Nike Running Shoes Size 11) has 23 units.",
+    "expected_is_followup": "true",
+    "expected_type": "explain"
+  },
+  {
+    "id": 14,
+    "scenario": "Ask about a specific attribute of entities from prior multi-entity result",
+    "current_query": "Which of those brands had the most returns?",
+    "prior_objective": "Top 5 brands by total sales revenue",
+    "prior_summary": "Question: Which brands had the highest total sales? Objective: Join order_items with products and brands, group by brand_name, sum revenue. Result: 5 rows. Answered: Top 5 brands: Nike (Rs 890K), Adidas (Rs 750K), Sony (Rs 620K), Philips (Rs 380K), Levi's (Rs 290K).",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  },
+  {
+    "id": 15,
+    "scenario": "Ambiguous pronoun reference requiring prior context to resolve",
+    "current_query": "What is their average rating?",
+    "prior_objective": "Top 5 products by units sold",
+    "prior_summary": "Question: What are the top 5 products by units sold? Objective: Join order_items with product_variants and products, sum quantity, order desc limit 5. Result: 5 rows. Answered: Top 5 products: Adidas Ultraboost 22 (65 units), Nike Running Shorts (50 units), Sony Alpha A6400 Camera (47 units), Mamaearth Onion Shampoo (45 units), Ikea LACK Coffee Table (41 units).",
+    "expected_is_followup": "true",
+    "expected_type": "drilldown"
+  }
+]
