@@ -10,3 +10,12 @@ wheels/
 .venv
 
 .env
+
+# Docker local overrides and host-side HuggingFace model cache
+docker-compose.override.yml
+.cache/
+
+
+.claude
+
+*.md

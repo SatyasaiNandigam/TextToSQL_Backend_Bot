@@ -1,0 +1,46 @@
+# Secrets — NEVER allow .env into the build context
+.env
+
+# Python artifacts
+__pycache__/
+*.py[oc]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environment (uv installs deps fresh inside the image)
+.venv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Local HuggingFace model cache (image builds its own during docker build)
+.cache/
+
+# Version control & IDE
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Dev / research files not needed at runtime
+datasets/
+evaluation/
+experiments/
+*.ipynb
+*.xlsx
+*.csv
+pipeline/graph.png
+
+# Docker files (no need to include in build context)
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+.dockerignore
+README.md
