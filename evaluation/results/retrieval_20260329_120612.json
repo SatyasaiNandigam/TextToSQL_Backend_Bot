@@ -1,0 +1,1393 @@
+{
+  "table_metrics": {
+    "mean_recall": 1.0,
+    "mean_precision": 0.3218,
+    "recall_pass": true,
+    "per_query": [
+      {
+        "query_id": "ORD-01",
+        "category": "Order Analytics",
+        "query": "What are the top 5 products by total revenue?",
+        "recall": 1.0,
+        "precision": 0.7778,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "order_items",
+          "orders",
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "reviews"
+        ]
+      },
+      {
+        "query_id": "ORD-02",
+        "category": "Order Analytics",
+        "query": "How many orders are in each status?",
+        "recall": 1.0,
+        "precision": 0.3,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "ORD-03",
+        "category": "Order Analytics",
+        "query": "What is the average order value per customer?",
+        "recall": 1.0,
+        "precision": 0.3636,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "ORD-04",
+        "category": "Order Analytics",
+        "query": "Which orders were cancelled and what was the total revenue lost?",
+        "recall": 1.0,
+        "precision": 0.3636,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "refunds",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "refunds",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "product_variants",
+          "products",
+          "refunds",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "ORD-05",
+        "category": "Order Analytics",
+        "query": "Show the total number of items ordered per product category",
+        "recall": 1.0,
+        "precision": 0.5556,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "categories",
+          "order_items",
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "shipments",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PRD-01",
+        "category": "Product & Inventory",
+        "query": "Which products have zero stock across all their variants?",
+        "recall": 1.0,
+        "precision": 0.4,
+        "retrieved_tables": [
+          "categories",
+          "inventory_log",
+          "order_items",
+          "product_images",
+          "product_variants",
+          "products"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "inventory_log",
+          "order_items",
+          "orders",
+          "product_images",
+          "product_variants",
+          "products",
+          "users"
+        ],
+        "required_tables": [
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "inventory_log",
+          "order_items",
+          "orders",
+          "product_images",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PRD-02",
+        "category": "Product & Inventory",
+        "query": "What are the top 10 best-selling products by quantity sold?",
+        "recall": 1.0,
+        "precision": 0.5556,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "order_items",
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "reviews",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PRD-03",
+        "category": "Product & Inventory",
+        "query": "List all active products in the Electronics category with their variant prices",
+        "recall": 1.0,
+        "precision": 0.4444,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "categories",
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "order_items",
+          "orders",
+          "reviews",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PRD-04",
+        "category": "Product & Inventory",
+        "query": "How many product variants does each product have?",
+        "recall": 1.0,
+        "precision": 0.1667,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "product_images",
+          "product_variants",
+          "products",
+          "variant_attributes"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "attribute_values",
+          "attributes",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_images",
+          "product_variants",
+          "products",
+          "users",
+          "variant_attributes"
+        ],
+        "required_tables": [
+          "product_variants",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "attribute_values",
+          "attributes",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_images",
+          "users",
+          "variant_attributes"
+        ]
+      },
+      {
+        "query_id": "PRD-05",
+        "category": "Product & Inventory",
+        "query": "Which brands have the most products and what categories do they cover?",
+        "recall": 1.0,
+        "precision": 0.3333,
+        "retrieved_tables": [
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "brands",
+          "categories",
+          "products"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "order_items",
+          "orders",
+          "product_variants",
+          "reviews",
+          "users"
+        ]
+      },
+      {
+        "query_id": "CUS-01",
+        "category": "Customer Behavior",
+        "query": "Who are the top 10 customers by total spend?",
+        "recall": 1.0,
+        "precision": 0.4,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "product_variants",
+          "products",
+          "reviews"
+        ]
+      },
+      {
+        "query_id": "CUS-02",
+        "category": "Customer Behavior",
+        "query": "Which customers have placed more than 3 orders?",
+        "recall": 1.0,
+        "precision": 0.1818,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "CUS-03",
+        "category": "Customer Behavior",
+        "query": "Show customers who have never placed an order",
+        "recall": 1.0,
+        "precision": 0.1818,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "CUS-04",
+        "category": "Customer Behavior",
+        "query": "What is the distribution of orders by customer city?",
+        "recall": 1.0,
+        "precision": 0.1818,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "payments",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "CUS-05",
+        "category": "Customer Behavior",
+        "query": "Which customers have both placed orders and written reviews?",
+        "recall": 1.0,
+        "precision": 0.3636,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "review_images",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "review_images",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "reviews",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "payments",
+          "product_variants",
+          "review_images"
+        ]
+      },
+      {
+        "query_id": "PAY-01",
+        "category": "Payment & Revenue",
+        "query": "What is the total revenue collected by each payment method?",
+        "recall": 1.0,
+        "precision": 0.2,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "payments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "shipments",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PAY-02",
+        "category": "Payment & Revenue",
+        "query": "How many payment transactions failed and what was the total failed amount?",
+        "recall": 1.0,
+        "precision": 0.2,
+        "retrieved_tables": [
+          "orders",
+          "payments",
+          "refunds",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "orders",
+          "payments",
+          "products",
+          "refunds",
+          "reviews",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "payments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "products",
+          "refunds",
+          "reviews",
+          "shipments",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PAY-03",
+        "category": "Payment & Revenue",
+        "query": "What is the total refund amount issued grouped by refund reason?",
+        "recall": 1.0,
+        "precision": 0.3,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "refunds"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "refunds",
+          "users"
+        ],
+        "required_tables": [
+          "payments",
+          "refunds"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PAY-04",
+        "category": "Payment & Revenue",
+        "query": "Show month-wise revenue trend for the current year",
+        "recall": 1.0,
+        "precision": 0.1111,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "orders"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ]
+      },
+      {
+        "query_id": "PAY-05",
+        "category": "Payment & Revenue",
+        "query": "Which orders still have a pending payment?",
+        "recall": 1.0,
+        "precision": 0.3,
+        "retrieved_tables": [
+          "order_items",
+          "order_status_history",
+          "orders",
+          "payments",
+          "refunds",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "order_items",
+          "order_status_history",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "refunds",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "payments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "order_items",
+          "order_status_history",
+          "product_variants",
+          "products",
+          "refunds",
+          "shipments"
+        ]
+      },
+      {
+        "query_id": "SHP-01",
+        "category": "Shipping & Fulfillment",
+        "query": "What is the average delivery time in days from shipped to delivered?",
+        "recall": 1.0,
+        "precision": 0.1818,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "products",
+          "reviews",
+          "shipment_tracking",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipment_tracking",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "shipments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "reviews",
+          "shipment_tracking",
+          "users"
+        ]
+      },
+      {
+        "query_id": "SHP-02",
+        "category": "Shipping & Fulfillment",
+        "query": "Which orders have been shipped but not yet delivered?",
+        "recall": 1.0,
+        "precision": 0.3,
+        "retrieved_tables": [
+          "order_items",
+          "order_status_history",
+          "orders",
+          "payments",
+          "shipment_tracking",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "order_items",
+          "order_status_history",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "orders",
+          "shipments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "order_items",
+          "order_status_history",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking"
+        ]
+      },
+      {
+        "query_id": "SHP-03",
+        "category": "Shipping & Fulfillment",
+        "query": "What is the total shipping charge collected by each carrier?",
+        "recall": 1.0,
+        "precision": 0.1818,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "products",
+          "shipment_tracking",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "shipments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking",
+          "users"
+        ]
+      },
+      {
+        "query_id": "SHP-04",
+        "category": "Shipping & Fulfillment",
+        "query": "Show the count of shipments in each current status",
+        "recall": 1.0,
+        "precision": 0.2222,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "payments",
+          "shipment_tracking",
+          "shipments",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "order_items",
+          "orders",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "shipments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "order_items",
+          "payments",
+          "product_variants",
+          "products",
+          "shipment_tracking",
+          "users"
+        ]
+      },
+      {
+        "query_id": "SHP-05",
+        "category": "Shipping & Fulfillment",
+        "query": "Which products have been shipped the most times?",
+        "recall": 1.0,
+        "precision": 0.5556,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "shipments"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "shipments",
+          "users"
+        ],
+        "required_tables": [
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "shipments"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "users"
+        ]
+      },
+      {
+        "query_id": "REV-01",
+        "category": "Reviews & Ratings",
+        "query": "What is the average product rating by category?",
+        "recall": 1.0,
+        "precision": 0.3333,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "categories",
+          "products",
+          "reviews"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "order_items",
+          "orders",
+          "product_variants",
+          "users"
+        ]
+      },
+      {
+        "query_id": "REV-02",
+        "category": "Reviews & Ratings",
+        "query": "Which products have received the most low ratings (1 or 2 stars)?",
+        "recall": 1.0,
+        "precision": 0.2,
+        "retrieved_tables": [
+          "categories",
+          "order_items",
+          "product_variants",
+          "products",
+          "review_votes",
+          "reviews"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "review_votes",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "products",
+          "reviews"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "review_votes",
+          "users"
+        ]
+      },
+      {
+        "query_id": "REV-03",
+        "category": "Reviews & Ratings",
+        "query": "How many verified purchase reviews does each product have?",
+        "recall": 1.0,
+        "precision": 0.4444,
+        "retrieved_tables": [
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "products",
+          "reviews"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "product_variants",
+          "users"
+        ]
+      },
+      {
+        "query_id": "REV-04",
+        "category": "Reviews & Ratings",
+        "query": "What percentage of customers have written at least one review?",
+        "recall": 1.0,
+        "precision": 0.2222,
+        "retrieved_tables": [
+          "orders",
+          "products",
+          "review_images",
+          "review_votes",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "orders",
+          "products",
+          "review_images",
+          "review_votes",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "reviews",
+          "users"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "brands",
+          "categories",
+          "orders",
+          "products",
+          "review_images",
+          "review_votes"
+        ]
+      },
+      {
+        "query_id": "REV-05",
+        "category": "Reviews & Ratings",
+        "query": "What is the average rating per brand?",
+        "recall": 1.0,
+        "precision": 0.3333,
+        "retrieved_tables": [
+          "brands",
+          "order_items",
+          "orders",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "fk_expanded_tables": [
+          "addresses",
+          "brands",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "products",
+          "reviews",
+          "users"
+        ],
+        "required_tables": [
+          "brands",
+          "products",
+          "reviews"
+        ],
+        "missed": [],
+        "hallucinated": [
+          "addresses",
+          "categories",
+          "order_items",
+          "orders",
+          "product_variants",
+          "users"
+        ]
+      }
+    ]
+  },
+  "context_precision": 0.8435,
+  "context_recall": 1.0,
+  "context_precision_pass": true,
+  "context_recall_pass": true,
+  "per_query": [
+    {
+      "query_id": "ORD-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "ORD-02",
+      "context_precision": 0.7,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "ORD-03",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "ORD-04",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "ORD-05",
+      "context_precision": 0.9667,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PRD-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PRD-02",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PRD-03",
+      "context_precision": 0.6389,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PRD-04",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PRD-05",
+      "context_precision": 0.5,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "CUS-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "CUS-02",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "CUS-03",
+      "context_precision": 0.5833,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "CUS-04",
+      "context_precision": 0.9167,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "CUS-05",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PAY-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PAY-02",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PAY-03",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PAY-04",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "PAY-05",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "SHP-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "SHP-02",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "SHP-03",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "SHP-04",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "SHP-05",
+      "context_precision": 0.25,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "REV-01",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "REV-02",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "REV-03",
+      "context_precision": 1.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "REV-04",
+      "context_precision": 0.0,
+      "context_recall": 1.0
+    },
+    {
+      "query_id": "REV-05",
+      "context_precision": 0.75,
+      "context_recall": 1.0
+    }
+  ]
+}

@@ -21,3 +21,6 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "behavioral: LLM-backed integration tests (require API keys, excluded from fast CI)"
     )
+    config.addinivalue_line(
+        "markers", "llm_eval: LLM judge evaluation tests (require OPENAI_API_KEY, non-deterministic scores)"
+    )
