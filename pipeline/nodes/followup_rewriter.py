@@ -15,7 +15,8 @@ def followup_rewriter(state):
 
     prompt = prompt_registry.get("followup_rewriter").invoke(input={
         "last_result_summary": state.last_result_summary,
-        "current_query": state.current_user_query
+        "current_query": state.current_user_query,
+        "followup_type": state.followup.type
     })
 
     response = llm.with_structured_output(FollowUpReWriterSchema).invoke(prompt)
