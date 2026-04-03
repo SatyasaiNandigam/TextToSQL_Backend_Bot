@@ -21,10 +21,11 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 
 # Install all project dependencies into the system Python.
-# --system: install into system Python (not a venv) — correct for containers
+# UV_SYSTEM_PYTHON=1: install into system Python (not a venv) — replaces removed --system flag (uv >= 0.11)
 # --frozen: use exact locked versions, do not update the lock file
 # --no-cache: avoids uv's own cache dir bloating the layer
-RUN uv sync --system --frozen --no-cache
+ENV UV_SYSTEM_PYTHON=1
+RUN uv sync --frozen --no-cache
 
 # Pre-download the HuggingFace embedding model at build time.
 # This avoids a 30-60s download delay on every cold container start.
