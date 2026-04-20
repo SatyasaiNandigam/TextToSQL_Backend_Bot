@@ -36,11 +36,29 @@ messages:
 
       **segmentation vs comparison**: "Which customers bought Electronics but not Sports?" is SEGMENTATION — it defines a customer group by inclusion/exclusion behavior. COMPARISON requires two explicitly named entities placed head-to-head with "vs" or "compare".
 
-      **needs_chart rule**: Set needs_chart=true ONLY when the user explicitly uses words like "chart", "graph", "plot", "visualize", "bar chart", "pie chart", or when intent is trend_analysis (time-series data always benefits from a chart). For all other intents — including comparison, forecast, anomaly, kpi_lookup, top_n, segmentation, operational — default to needs_chart=false unless the user explicitly requests a visual.
+      **needs_chart rule**: needs_chart is a TRIGGER flag, not a quality judgment. It is ONLY true when the user's message contains one of these exact words or phrases: "chart", "graph", "plot", "visualize", "bar chart", "pie chart", "line chart". If NONE of these words appear in the query, needs_chart MUST be false — regardless of intent type. Comparison, forecast, anomaly, kpi_lookup, top_n, segmentation, and operational queries are all needs_chart=false by default. Do NOT infer that a comparison or forecast "would benefit from" a chart — only flag it if the user asked for one.
 
-      ## Metric Normalization
+      needs_chart=false examples (no chart words → always false):
+      - "Compare revenue of Electronics vs Clothing" → needs_chart=false
+      - "How does this month compare to last month in terms of revenue?" → needs_chart=false
+      - "What will revenue look like next quarter?" → needs_chart=false
+      - "Predict order volume for next month" → needs_chart=false
+      - "Are there any unusual spikes in orders last week?" → needs_chart=false
 
-      Use short canonical metric names. Do NOT return verbose compound phrases.
+      needs_chart=true examples (explicit chart words → true):
+      - "Plot the monthly revenue trend" → needs_chart=true
+      - "Show me a bar chart of top products" → needs_chart=true
+      - "Visualize category revenue" → needs_chart=true
+
+      ## Metric Field
+
+      The metric field captures WHAT is being measured — the primary quantitative attribute. Populate it whenever the query measures or ranks by a specific attribute, even in segmentation queries.
+
+      - "Segment products by category and average rating" → metric="rating" (the measurement attribute is rating)
+      - "Group customers by their total spend" → metric="spend"
+      - "Which customers bought Electronics but not Sports?" → metric=null (no measurement, just filtering)
+
+      Use short canonical metric names. Do NOT return verbose compound phrases:
       - "order volume", "order count", "number of orders" → orders
       - "total spend", "customer spend", "spending" → spend
       - "average rating", "avg rating" → rating
