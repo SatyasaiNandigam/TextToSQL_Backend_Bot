@@ -34,25 +34,13 @@ messages:
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       CHECK 3 — AGGREGATION CORRECTNESS
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      Match the aggregation function to the question's intent:
+      Rule: Match the aggregation function to the question's intent (SUM for revenue, AVG for value, etc.).
 
-        - "total revenue"         → must use SUM(grand_total) or SUM(total_price)
-        - "average order value"   → must use AVG(grand_total)
-        - "monthly average"       → must GROUP BY month first, then AVG of monthly totals
-                                    AVG(grand_total) directly over rows = INVALID
-        - "count of orders"       → must use COUNT(order_id) or COUNT(*)
-        - "most popular / top"    → must use COUNT + ORDER BY DESC + LIMIT or RANK()
+      Scope Aware: If the aggregation is performed within a CTE to filter the dataset, the final SELECT does not need to repeat that aggregation unless the user specifically asked for the numeric values
 
-      EXCEPTION: If AVG is applied to a column that was already aggregated per month
-      in a prior CTE, that is VALID.
+      Validation Pass: A query is VALID if the required aggregation exists anywhere in the execution chain (CTE or Main query) that logically satisfies the prompt.
 
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      CHECK 4 — CTE CHAINING (multi-step plans)
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      If the objective mentions "using step 1 as a CTE" or "from step 1":
-        - The SQL must contain a WITH clause embedding the prior step's logic
-        - The final SELECT must JOIN or filter using the CTE
-        - Re-computing the same ranking/aggregation from scratch inside step 2 = INVALID
+
 
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       CHECK 5 — DATE FILTER CORRECTNESS
