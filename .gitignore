@@ -19,5 +19,8 @@ docker-compose.override.yml
 .claude
 
 *.md
+!docs/*.md
 
 .deepeval
+
+chroma_db/
