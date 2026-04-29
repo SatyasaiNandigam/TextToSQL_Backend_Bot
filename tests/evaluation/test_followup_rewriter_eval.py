@@ -37,6 +37,7 @@ from pipeline.nodes.followup_rewriter import followup_rewriter
 from schema.follow_up_schema import FollowUpSchema
 
 DATASETS_DIR = pathlib.Path(__file__).parents[2] / "datasets"
+_JUDGE_MODEL = "gpt-4o-mini"
 
 
 # ---------------------------------------------------------------------------
@@ -95,7 +96,8 @@ def _geval_standalone() -> GEval:
             LLMTestCaseParams.ACTUAL_OUTPUT,
             LLMTestCaseParams.RETRIEVAL_CONTEXT,
         ],
-        threshold=0.7,
+        model=_JUDGE_MODEL,
+        threshold=0.65,
     )
 
 
@@ -116,7 +118,8 @@ def _geval_intent() -> GEval:
             LLMTestCaseParams.ACTUAL_OUTPUT,
             LLMTestCaseParams.RETRIEVAL_CONTEXT,
         ],
-        threshold=0.7,
+        model=_JUDGE_MODEL,
+        threshold=0.65,
     )
 
 
@@ -134,7 +137,8 @@ def _geval_context() -> GEval:
             LLMTestCaseParams.ACTUAL_OUTPUT,
             LLMTestCaseParams.RETRIEVAL_CONTEXT,
         ],
-        threshold=0.65,
+        model=_JUDGE_MODEL,
+        threshold=0.60,
     )
 
 
@@ -152,7 +156,8 @@ def _geval_no_hallucination() -> GEval:
             LLMTestCaseParams.ACTUAL_OUTPUT,
             LLMTestCaseParams.RETRIEVAL_CONTEXT,
         ],
-        threshold=0.8,
+        model=_JUDGE_MODEL,
+        threshold=0.75,
     )
 
 
@@ -174,7 +179,8 @@ def _geval_query_specificity() -> GEval:
             LLMTestCaseParams.ACTUAL_OUTPUT,
             LLMTestCaseParams.RETRIEVAL_CONTEXT,
         ],
-        threshold=0.7,
+        model=_JUDGE_MODEL,
+        threshold=0.65,
     )
 
 

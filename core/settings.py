@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     DEFAULT_LLM_MODEL: str = "gpt-4o-mini"
     LLM_TEMPERATURE: float = 0
+    OPENAI_MODEL_NAME: str = "gpt-4o-mini"
+    
     
     GROQ_API_KEY: str
     GROQ_MODEL: str = "llama-3.1-8b-instant"

@@ -1,0 +1,431 @@
+[
+  {
+    "id": 1,
+    "scenario_type": "fresh_generation",
+    "category": "simple_aggregation",
+    "description": "Total revenue by city last 30 days (orders+users only)",
+    "question": "What is the total revenue by city in the last 30 days?",
+    "plan_objective": "Join orders o with users u on o.user_id = u.user_id. Filter o.created_at >= CURRENT_DATE - INTERVAL '30 days'. Group by u.city. Return u.city and SUM(o.grand_total) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 2,
+    "scenario_type": "fresh_generation",
+    "category": "simple_aggregation",
+    "description": "Total order count by status (orders only)",
+    "question": "How many orders are in each status?",
+    "plan_objective": "From orders o, group by o.status. Return o.status and COUNT(o.order_id) as order_count ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 3,
+    "scenario_type": "fresh_generation",
+    "category": "simple_aggregation",
+    "description": "Average order value (AOV) by state (orders+users only)",
+    "question": "What is the average order value per state?",
+    "plan_objective": "Join orders o with users u on o.user_id = u.user_id. Group by u.state. Return u.state and AVG(o.grand_total) as avg_order_value ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 4,
+    "scenario_type": "fresh_generation",
+    "category": "simple_aggregation",
+    "description": "Total revenue this month (orders only, DATE_TRUNC filter)",
+    "question": "What is the total revenue this month?",
+    "plan_objective": "From orders o, filter DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', CURRENT_DATE). Return SUM(o.grand_total) as total_revenue.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 5,
+    "scenario_type": "fresh_generation",
+    "category": "revenue_with_items",
+    "description": "Total revenue by category — full 5-table chain, SUM(oi.total_price)",
+    "question": "What is the total revenue by product category?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Group by c.name. Return c.name and SUM(oi.total_price) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 6,
+    "scenario_type": "fresh_generation",
+    "category": "revenue_with_items",
+    "description": "Total revenue by brand — full chain through brands, SUM(oi.total_price)",
+    "question": "What is the total revenue by brand?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> brands b on p.brand_id = b.brand_id. Group by b.name. Return b.name and SUM(oi.total_price) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, brand_id FK->brands, name VARCHAR, status VARCHAR)\nTable: brands (brand_id PK, name VARCHAR, country VARCHAR, segment VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 7,
+    "scenario_type": "fresh_generation",
+    "category": "revenue_with_items",
+    "description": "Revenue by product (top 10) — SUM(oi.total_price), 4-table chain",
+    "question": "What are the top 10 products by total revenue?",
+    "plan_objective": "Join order_items oi -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id. Group by p.product_id, p.name. Return p.name and SUM(oi.total_price) as total_revenue ordered DESC. LIMIT 10.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 8,
+    "scenario_type": "fresh_generation",
+    "category": "revenue_with_items",
+    "description": "Monthly revenue breakdown — SUM(oi.total_price) with DATE_TRUNC month grouping",
+    "question": "Show monthly revenue for the last 6 months",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id. Filter o.created_at >= CURRENT_DATE - INTERVAL '6 months'. Group by DATE_TRUNC('month', o.created_at). Return the month and SUM(oi.total_price) as monthly_revenue ordered ASC by month.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 9,
+    "scenario_type": "fresh_generation",
+    "category": "category_filter",
+    "description": "Total revenue for Electronics category — full 5-table chain with WHERE filter",
+    "question": "What is the total revenue from Electronics products?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Filter WHERE c.name = 'Electronics'. Return SUM(oi.total_price) as total_revenue.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 10,
+    "scenario_type": "fresh_generation",
+    "category": "category_filter",
+    "description": "Count distinct orders that included Clothing products",
+    "question": "How many orders included Clothing products?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Filter WHERE c.name = 'Clothing'. Return COUNT(DISTINCT o.order_id) as order_count.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 11,
+    "scenario_type": "fresh_generation",
+    "category": "category_filter",
+    "description": "Revenue by city for Sports category — 6-table join with city group and category filter",
+    "question": "What is the total revenue from Sports products by city?",
+    "plan_objective": "Join orders o -> users u on o.user_id = u.user_id -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Filter WHERE c.name = 'Sports'. Group by u.city. Return u.city and SUM(oi.total_price) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 12,
+    "scenario_type": "fresh_generation",
+    "category": "top_n",
+    "description": "Top 5 customers by total spend",
+    "question": "Who are the top 5 customers by total spend?",
+    "plan_objective": "Join orders o with users u on o.user_id = u.user_id. Group by u.user_id, u.full_name. Return u.full_name and SUM(o.grand_total) as total_spend ordered DESC. LIMIT 5.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 13,
+    "scenario_type": "fresh_generation",
+    "category": "top_n",
+    "description": "Top 3 cities by order count",
+    "question": "Which 3 cities have the most orders?",
+    "plan_objective": "Join orders o with users u on o.user_id = u.user_id. Group by u.city. Return u.city and COUNT(o.order_id) as order_count ordered DESC. LIMIT 3.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 14,
+    "scenario_type": "fresh_generation",
+    "category": "top_n",
+    "description": "Top 5 products by units sold — SUM(oi.quantity) via 3-table chain",
+    "question": "What are the top 5 products by total units sold?",
+    "plan_objective": "Join order_items oi -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id. Group by p.product_id, p.name. Return p.name and SUM(oi.quantity) as units_sold ordered DESC. LIMIT 5.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 15,
+    "scenario_type": "fresh_generation",
+    "category": "date_filter",
+    "description": "Order count last 30 days — CURRENT_DATE - INTERVAL pattern",
+    "question": "How many orders were placed in the last 30 days?",
+    "plan_objective": "From orders o, filter o.created_at >= CURRENT_DATE - INTERVAL '30 days'. Return COUNT(o.order_id) as order_count.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 16,
+    "scenario_type": "fresh_generation",
+    "category": "date_filter",
+    "description": "Revenue this month — DATE_TRUNC('month', ...) = DATE_TRUNC('month', CURRENT_DATE)",
+    "question": "What is the total revenue this month?",
+    "plan_objective": "From orders o, filter DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', CURRENT_DATE). Return SUM(o.grand_total) as total_revenue.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 17,
+    "scenario_type": "fresh_generation",
+    "category": "date_filter",
+    "description": "Revenue in year 2024 — year boundary filter with >= and < pattern",
+    "question": "What is the total revenue in 2024?",
+    "plan_objective": "From orders o, filter o.created_at >= '2024-01-01' AND o.created_at < '2025-01-01'. Return SUM(o.grand_total) as total_revenue.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 18,
+    "scenario_type": "fresh_generation",
+    "category": "exclusion_pattern",
+    "description": "Customers who bought Electronics but not Clothing — NOT EXISTS subquery",
+    "question": "Which customers bought Electronics but never bought Clothing?",
+    "plan_objective": "Select u.user_id, u.full_name from users u where EXISTS (subquery: join orders o -> order_items oi -> product_variants pv -> products p -> categories c where o.user_id = u.user_id and c.name = 'Electronics') AND NOT EXISTS (subquery: same chain where o.user_id = u.user_id and c.name = 'Clothing').",
+    "table_schema": "Table: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR)\nTable: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 19,
+    "scenario_type": "fresh_generation",
+    "category": "exclusion_pattern",
+    "description": "Products with no orders in the last 90 days — NOT EXISTS on order_items chain",
+    "question": "Which products have had no orders in the last 90 days?",
+    "plan_objective": "Select p.product_id, p.name from products p where NOT EXISTS (subquery: select 1 from order_items oi join product_variants pv on oi.variant_id = pv.variant_id join orders o on oi.order_id = o.order_id where pv.product_id = p.product_id and o.created_at >= CURRENT_DATE - INTERVAL '90 days').",
+    "table_schema": "Table: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 20,
+    "scenario_type": "fresh_generation",
+    "category": "window_functions",
+    "description": "Top-selling product in each category — RANK() OVER PARTITION BY in CTE with WHERE rank = 1",
+    "question": "What is the top-selling product in each category?",
+    "plan_objective": "Use a CTE: rank products by SUM(oi.total_price) within each category using RANK() OVER (PARTITION BY c.category_id ORDER BY SUM(oi.total_price) DESC). Join order_items oi -> product_variants pv -> products p -> categories c. Group by c.category_id, c.name, p.product_id, p.name. In outer query, select category, product and revenue where rank = 1.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 21,
+    "scenario_type": "fresh_generation",
+    "category": "window_functions",
+    "description": "Most popular payment method in each city — RANK() OVER PARTITION BY city",
+    "question": "What is the most popular payment method in each city?",
+    "plan_objective": "Use a CTE: rank payment methods by COUNT(*) within each city using RANK() OVER (PARTITION BY u.city ORDER BY COUNT(*) DESC). Join orders o -> users u on o.user_id = u.user_id -> payments pay on o.order_id = pay.order_id. Group by u.city, pay.method. In outer query select city, method, cnt where rank = 1.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR)\nTable: payments (payment_id PK, order_id FK->orders, method VARCHAR, status VARCHAR, amount NUMERIC)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 22,
+    "scenario_type": "fresh_generation",
+    "category": "cte_pattern",
+    "description": "Customers spending above overall average order value — CTE for average, outer filter",
+    "question": "Which customers have an average order value above the overall average?",
+    "plan_objective": "CTE avg_overall: compute AVG(grand_total) from orders. CTE customer_avg: join orders o with users u on o.user_id = u.user_id, group by u.user_id, u.full_name, compute AVG(o.grand_total) as avg_spend. Outer query: select u.user_id, u.full_name, avg_spend from customer_avg cross join avg_overall where avg_spend > overall_avg ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 23,
+    "scenario_type": "fresh_generation",
+    "category": "cte_pattern",
+    "description": "Revenue comparison Q1 vs Q2 — two CTEs with non-overlapping windows",
+    "question": "Compare total revenue in Q1 vs Q2 this year",
+    "plan_objective": "CTE q1: SUM(grand_total) from orders where created_at >= '2024-01-01' AND created_at < '2024-04-01'. CTE q2: SUM(grand_total) from orders where created_at >= '2024-04-01' AND created_at < '2024-07-01'. Return both values side by side.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": null,
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "plan_fulfillment"]
+  },
+  {
+    "id": 24,
+    "scenario_type": "repair",
+    "category": "fix_aggregation",
+    "description": "Fix SUM(o.grand_total) to SUM(oi.total_price) when order_items is joined for category revenue",
+    "question": "What is the total revenue by product category?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Group by c.name. Return c.name and SUM(oi.total_price) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 3",
+      "reason": "SUM(o.grand_total) is incorrect when order_items is joined — grand_total repeats once per line item, inflating revenue counts",
+      "repair_hint": "Replace SUM(o.grand_total) with SUM(oi.total_price), which is the item-level revenue column and is not affected by row multiplication"
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "aggregation_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 25,
+    "scenario_type": "repair",
+    "category": "fix_aggregation",
+    "description": "Fix SUM(o.grand_total) to SUM(oi.total_price) in brand revenue query",
+    "question": "Which brands generated the most revenue last month?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> brands b on p.brand_id = b.brand_id. Filter o.created_at >= CURRENT_DATE - INTERVAL '30 days'. Group by b.name. Return b.name and SUM(oi.total_price) as total_revenue ordered DESC. LIMIT 10.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, brand_id FK->brands, name VARCHAR, status VARCHAR)\nTable: brands (brand_id PK, name VARCHAR, country VARCHAR, segment VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 3",
+      "reason": "SUM(o.grand_total) inflates revenue when order_items is joined — grand_total is an order-level value that repeats for each item row",
+      "repair_hint": "Use SUM(oi.total_price) instead of SUM(o.grand_total) to correctly sum item-level revenue without row multiplication"
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 26,
+    "scenario_type": "repair",
+    "category": "fix_aggregation",
+    "description": "Fix COUNT(o.order_id) without DISTINCT when order_items is joined",
+    "question": "How many orders included Electronics products?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Filter WHERE c.name = 'Electronics'. Return COUNT(DISTINCT o.order_id) as order_count.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 3",
+      "reason": "COUNT(o.order_id) without DISTINCT inflates the count when order_items is joined — each order_id appears once per line item",
+      "repair_hint": "Change COUNT(o.order_id) to COUNT(DISTINCT o.order_id) to count each order only once regardless of how many items it contains"
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 27,
+    "scenario_type": "repair",
+    "category": "fix_join_path",
+    "description": "Add missing product_variants bridge: order_items joined directly to products",
+    "question": "What are the top 5 products by units sold?",
+    "plan_objective": "Join order_items oi -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id. Group by p.product_id, p.name. Return p.name and SUM(oi.quantity) as units_sold ordered DESC. LIMIT 5.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 2",
+      "reason": "order_items is joined directly to products on oi.product_id = p.product_id — this FK does not exist. order_items links to product_variants via variant_id, not directly to products.",
+      "repair_hint": "Add the product_variants bridge: JOIN product_variants pv ON oi.variant_id = pv.variant_id, then JOIN products p ON pv.product_id = p.product_id. Remove the direct oi.product_id = p.product_id join."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 28,
+    "scenario_type": "repair",
+    "category": "fix_join_path",
+    "description": "Add missing order_items and product_variants: orders joined directly to categories",
+    "question": "What is the revenue per category this month?",
+    "plan_objective": "Join orders o -> order_items oi on o.order_id = oi.order_id -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> categories c on p.category_id = c.category_id. Filter current month. Group by c.name. Return c.name and SUM(oi.total_price) as total_revenue ordered DESC.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 2",
+      "reason": "orders is joined directly to categories on o.category_id = c.category_id — this column and FK do not exist. The correct path goes through order_items, product_variants, and products.",
+      "repair_hint": "Replace the direct orders->categories join with the full chain: JOIN order_items oi ON o.order_id = oi.order_id, JOIN product_variants pv ON oi.variant_id = pv.variant_id, JOIN products p ON pv.product_id = p.product_id, JOIN categories c ON p.category_id = c.category_id. Also change SUM(o.grand_total) to SUM(oi.total_price)."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "aggregation_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 29,
+    "scenario_type": "repair",
+    "category": "fix_join_path",
+    "description": "Add missing product_variants bridge: order_items joined directly to brands",
+    "question": "What is the total quantity sold per brand?",
+    "plan_objective": "Join order_items oi -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id -> brands b on p.brand_id = b.brand_id. Group by b.name. Return b.name and SUM(oi.quantity) as total_units_sold ordered DESC.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, brand_id FK->brands, name VARCHAR, status VARCHAR)\nTable: brands (brand_id PK, name VARCHAR, country VARCHAR, segment VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 2",
+      "reason": "order_items is joined directly to brands on oi.brand_id = b.brand_id — this FK does not exist. The correct path goes through product_variants and products.",
+      "repair_hint": "Add the missing intermediate joins: JOIN product_variants pv ON oi.variant_id = pv.variant_id, JOIN products p ON pv.product_id = p.product_id, then JOIN brands b ON p.brand_id = b.brand_id. Remove the invalid oi.brand_id join."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "join_path_correctness", "repair_incorporates_hint"]
+  },
+  {
+    "id": 30,
+    "scenario_type": "repair",
+    "category": "fix_schema_error",
+    "description": "Fix invalid column p.product_name to p.name",
+    "question": "What are the top 5 products by revenue?",
+    "plan_objective": "Join order_items oi -> product_variants pv on oi.variant_id = pv.variant_id -> products p on pv.product_id = p.product_id. Group by p.product_id, p.name. Return p.name and SUM(oi.total_price) as revenue ordered DESC. LIMIT 5.",
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, base_price NUMERIC, status VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 1",
+      "reason": "Column p.product_name does not exist in the products table. The correct column name for the product name is p.name.",
+      "repair_hint": "Replace p.product_name with p.name in both the SELECT clause and the GROUP BY clause. The products table uses 'name' not 'product_name'."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "repair_incorporates_hint"]
+  },
+  {
+    "id": 31,
+    "scenario_type": "repair",
+    "category": "fix_schema_error",
+    "description": "Fix invalid column u.username to u.full_name",
+    "question": "Show the top 10 customers by total spend",
+    "plan_objective": "Join orders o with users u on o.user_id = u.user_id. Group by u.user_id, u.full_name. Return u.full_name and SUM(o.grand_total) as total_spend ordered DESC. LIMIT 10.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, status VARCHAR)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 1",
+      "reason": "Column u.username does not exist in the users table. The correct column for the customer's display name is u.full_name.",
+      "repair_hint": "Replace u.username with u.full_name in both the SELECT clause and the GROUP BY clause. The users table has 'full_name', not 'username'."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "repair_incorporates_hint"]
+  },
+  {
+    "id": 32,
+    "scenario_type": "repair",
+    "category": "fix_date_filter",
+    "description": "Fix invalid date column o.order_date to o.created_at",
+    "question": "How many orders were placed in the last 30 days?",
+    "plan_objective": "From orders o, filter o.created_at >= CURRENT_DATE - INTERVAL '30 days'. Return COUNT(o.order_id) as order_count.",
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "validation_feedback": {
+      "status": "invalid",
+      "failed_check": "CHECK 1",
+      "reason": "Column o.order_date does not exist in the orders table. The correct timestamp column for order creation is o.created_at.",
+      "repair_hint": "Replace o.order_date with o.created_at in the WHERE clause. The orders table stores the order timestamp as 'created_at', not 'order_date'."
+    },
+    "error": null,
+    "geval_metrics": ["schema_adherence", "plan_fulfillment", "repair_incorporates_hint"]
+  }
+]

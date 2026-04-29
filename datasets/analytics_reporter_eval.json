@@ -1,0 +1,820 @@
+[
+  {
+    "id": 1,
+    "category": "revenue_by_city",
+    "description": "Top 5 cities by total revenue",
+    "question": "What are the top 5 cities by total revenue?",
+    "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"city": "Pune", "total_revenue": 2620268.32},
+        {"city": "Jaipur", "total_revenue": 1677208.53},
+        {"city": "Chennai", "total_revenue": 1661728.47},
+        {"city": "Bangalore", "total_revenue": 1579620.62},
+        {"city": "Delhi", "total_revenue": 1233040.37}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by city, SUM grand_total, ORDER BY DESC LIMIT 5",
+        "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC LIMIT 5",
+        "columns": ["city", "total_revenue"],
+        "sample_rows": [{"city": "Pune", "total_revenue": 2620268.32}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 2,
+    "category": "revenue_by_city",
+    "description": "All cities ranked by revenue (10 cities)",
+    "question": "Show me revenue breakdown by city across all cities.",
+    "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC",
+    "raw_data": {
+      "step_1": [
+        {"city": "Pune", "total_revenue": 2620268.32},
+        {"city": "Jaipur", "total_revenue": 1677208.53},
+        {"city": "Chennai", "total_revenue": 1661728.47},
+        {"city": "Bangalore", "total_revenue": 1579620.62},
+        {"city": "Delhi", "total_revenue": 1233040.37},
+        {"city": "Kolkata", "total_revenue": 1125293.31},
+        {"city": "Ahmedabad", "total_revenue": 999538.48},
+        {"city": "Hyderabad", "total_revenue": 637459.20},
+        {"city": "Mumbai", "total_revenue": 594862.87},
+        {"city": "Lucknow", "total_revenue": 561659.64}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by city, SUM grand_total, ORDER BY DESC",
+        "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC",
+        "columns": ["city", "total_revenue"],
+        "sample_rows": [{"city": "Pune", "total_revenue": 2620268.32}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 3,
+    "category": "revenue_by_city",
+    "description": "Bottom 3 cities by revenue",
+    "question": "Which cities have the lowest total revenue?",
+    "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue ASC LIMIT 3",
+    "raw_data": {
+      "step_1": [
+        {"city": "Lucknow", "total_revenue": 561659.64},
+        {"city": "Mumbai", "total_revenue": 594862.87},
+        {"city": "Hyderabad", "total_revenue": 637459.20}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by city, SUM grand_total, ORDER BY ASC LIMIT 3",
+        "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue ASC LIMIT 3",
+        "columns": ["city", "total_revenue"],
+        "sample_rows": [{"city": "Lucknow", "total_revenue": 561659.64}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 4,
+    "category": "top_products",
+    "description": "Top 5 products by revenue",
+    "question": "What are the top 5 products by total revenue?",
+    "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Nike Running Shorts", "total_revenue": 1167950.0},
+        {"product_name": "Mamaearth Onion Shampoo", "total_revenue": 1002955.0},
+        {"product_name": "Adidas Ultraboost 22", "total_revenue": 1002935.0},
+        {"product_name": "Himalaya Anti-Dandruff Shampoo", "total_revenue": 920772.0},
+        {"product_name": "Nike Air Force 1", "total_revenue": 911972.0}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products, group by product name, SUM total_price, ORDER BY DESC LIMIT 5",
+        "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC LIMIT 5",
+        "columns": ["product_name", "total_revenue"],
+        "sample_rows": [{"product_name": "Nike Running Shorts", "total_revenue": 1167950.0}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 5,
+    "category": "top_products",
+    "description": "Top 5 products by units sold",
+    "question": "Which products have sold the most units overall?",
+    "sql": "SELECT p.name AS product_name, SUM(oi.quantity) AS total_units_sold FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_units_sold DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Adidas Ultraboost 22", "total_units_sold": 65},
+        {"product_name": "Nike Running Shorts", "total_units_sold": 50},
+        {"product_name": "Sony Alpha A6400 Camera", "total_units_sold": 47},
+        {"product_name": "Mamaearth Onion Shampoo", "total_units_sold": 45},
+        {"product_name": "Ikea LACK Coffee Table", "total_units_sold": 41}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products, group by product name, SUM quantity, ORDER BY DESC LIMIT 5",
+        "sql": "SELECT p.name AS product_name, SUM(oi.quantity) AS total_units_sold FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_units_sold DESC LIMIT 5",
+        "columns": ["product_name", "total_units_sold"],
+        "sample_rows": [{"product_name": "Adidas Ultraboost 22", "total_units_sold": 65}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 6,
+    "category": "top_products",
+    "description": "Top 5 products by number of orders",
+    "question": "Which products appear in the most orders?",
+    "sql": "SELECT p.name AS product_name, COUNT(DISTINCT oi.order_id) AS order_count FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY order_count DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Adidas Ultraboost 22", "order_count": 21},
+        {"product_name": "Nike Running Shorts", "order_count": 20},
+        {"product_name": "Sony Alpha A6400 Camera", "order_count": 17},
+        {"product_name": "Mamaearth Onion Shampoo", "order_count": 17},
+        {"product_name": "Ikea LACK Coffee Table", "order_count": 16}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products, group by product name, COUNT DISTINCT order_id, ORDER BY DESC LIMIT 5",
+        "sql": "SELECT p.name AS product_name, COUNT(DISTINCT oi.order_id) AS order_count FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY order_count DESC LIMIT 5",
+        "columns": ["product_name", "order_count"],
+        "sample_rows": [{"product_name": "Adidas Ultraboost 22", "order_count": 21}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 7,
+    "category": "top_products",
+    "description": "Top 5 products by revenue with category",
+    "question": "What are the top 5 revenue-generating products and which categories do they belong to?",
+    "sql": "SELECT p.name AS product_name, c.name AS category, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY p.name, c.name ORDER BY total_revenue DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Nike Running Shorts", "category": "Men's Clothing", "total_revenue": 1167950.0},
+        {"product_name": "Mamaearth Onion Shampoo", "category": "Haircare", "total_revenue": 1002955.0},
+        {"product_name": "Adidas Ultraboost 22", "category": "Footwear", "total_revenue": 1002935.0},
+        {"product_name": "Himalaya Anti-Dandruff Shampoo", "category": "Haircare", "total_revenue": 920772.0},
+        {"product_name": "Nike Air Force 1", "category": "Footwear", "total_revenue": 911972.0}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products -> categories, group by product and category name, SUM total_price, ORDER BY DESC LIMIT 5",
+        "sql": "SELECT p.name AS product_name, c.name AS category, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY p.name, c.name ORDER BY total_revenue DESC LIMIT 5",
+        "columns": ["product_name", "category", "total_revenue"],
+        "sample_rows": [{"product_name": "Nike Running Shorts", "category": "Men's Clothing", "total_revenue": 1167950.0}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 8,
+    "category": "order_status_distribution",
+    "description": "Full order status breakdown by count",
+    "question": "What is the distribution of orders by status?",
+    "sql": "SELECT status, COUNT(*) AS order_count FROM orders GROUP BY status ORDER BY order_count DESC",
+    "raw_data": {
+      "step_1": [
+        {"status": "delivered", "order_count": 83},
+        {"status": "shipped", "order_count": 33},
+        {"status": "processing", "order_count": 31},
+        {"status": "cancelled", "order_count": 21},
+        {"status": "confirmed", "order_count": 17},
+        {"status": "pending", "order_count": 10},
+        {"status": "returned", "order_count": 5}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group orders by status, COUNT order_id, ORDER BY count DESC",
+        "sql": "SELECT status, COUNT(*) AS order_count FROM orders GROUP BY status ORDER BY order_count DESC",
+        "columns": ["status", "order_count"],
+        "sample_rows": [{"status": "delivered", "order_count": 83}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 9,
+    "category": "order_status_distribution",
+    "description": "Order status with percentage breakdown",
+    "question": "What percentage of orders are in each status?",
+    "sql": "SELECT status, COUNT(*) AS order_count, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage FROM orders GROUP BY status ORDER BY order_count DESC",
+    "raw_data": {
+      "step_1": [
+        {"status": "delivered", "order_count": 83, "percentage": 41.5},
+        {"status": "shipped", "order_count": 33, "percentage": 16.5},
+        {"status": "processing", "order_count": 31, "percentage": 15.5},
+        {"status": "cancelled", "order_count": 21, "percentage": 10.5},
+        {"status": "confirmed", "order_count": 17, "percentage": 8.5},
+        {"status": "pending", "order_count": 10, "percentage": 5.0},
+        {"status": "returned", "order_count": 5, "percentage": 2.5}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group orders by status, COUNT and compute percentage using window function, ORDER BY count DESC",
+        "sql": "SELECT status, COUNT(*) AS order_count, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage FROM orders GROUP BY status ORDER BY order_count DESC",
+        "columns": ["status", "order_count", "percentage"],
+        "sample_rows": [{"status": "delivered", "order_count": 83, "percentage": 41.5}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 10,
+    "category": "category_performance",
+    "description": "All categories by total revenue (16 categories)",
+    "question": "How does revenue break down across product categories?",
+    "sql": "SELECT c.name AS category, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY total_revenue DESC",
+    "raw_data": {
+      "step_1": [
+        {"category": "Haircare", "total_revenue": 2014720.0},
+        {"category": "Footwear", "total_revenue": 1946891.0},
+        {"category": "Men's Clothing", "total_revenue": 1841255.0},
+        {"category": "Audio & Headphones", "total_revenue": 1374881.0},
+        {"category": "Outdoor Sports", "total_revenue": 746931.0},
+        {"category": "Kitchen Appliances", "total_revenue": 580324.0},
+        {"category": "Cameras", "total_revenue": 422453.0},
+        {"category": "Laptops & Computers", "total_revenue": 312675.0},
+        {"category": "Skincare", "total_revenue": 290944.0},
+        {"category": "Gym Equipment", "total_revenue": 275925.0},
+        {"category": "Bedding & Pillows", "total_revenue": 274577.0},
+        {"category": "Furniture", "total_revenue": 215649.0},
+        {"category": "Mobile Phones", "total_revenue": 200516.0},
+        {"category": "Women's Clothing", "total_revenue": 129984.0},
+        {"category": "Watches", "total_revenue": 99973.0},
+        {"category": "Electronics", "total_revenue": 29998.0}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products -> categories, group by category name, SUM total_price, ORDER BY DESC",
+        "sql": "SELECT c.name AS category, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY total_revenue DESC",
+        "columns": ["category", "total_revenue"],
+        "sample_rows": [{"category": "Haircare", "total_revenue": 2014720.0}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 11,
+    "category": "category_performance",
+    "description": "Categories by order count",
+    "question": "Which product categories have the most orders?",
+    "sql": "SELECT c.name AS category, COUNT(DISTINCT o.order_id) AS order_count FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY order_count DESC",
+    "raw_data": {
+      "step_1": [
+        {"category": "Men's Clothing", "order_count": 50},
+        {"category": "Audio & Headphones", "order_count": 42},
+        {"category": "Footwear", "order_count": 39},
+        {"category": "Mobile Phones", "order_count": 32},
+        {"category": "Haircare", "order_count": 29},
+        {"category": "Kitchen Appliances", "order_count": 28},
+        {"category": "Gym Equipment", "order_count": 28},
+        {"category": "Outdoor Sports", "order_count": 27},
+        {"category": "Skincare", "order_count": 22},
+        {"category": "Furniture", "order_count": 20},
+        {"category": "Cameras", "order_count": 17},
+        {"category": "Laptops & Computers", "order_count": 13},
+        {"category": "Watches", "order_count": 12},
+        {"category": "Bedding & Pillows", "order_count": 9},
+        {"category": "Women's Clothing", "order_count": 8},
+        {"category": "Electronics", "order_count": 1}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders -> order_items -> product_variants -> products -> categories, group by category, COUNT DISTINCT order_id, ORDER BY DESC",
+        "sql": "SELECT c.name AS category, COUNT(DISTINCT o.order_id) AS order_count FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY order_count DESC",
+        "columns": ["category", "order_count"],
+        "sample_rows": [{"category": "Men's Clothing", "order_count": 50}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 12,
+    "category": "category_performance",
+    "description": "Categories by average order value",
+    "question": "Which product categories have the highest average order value?",
+    "sql": "SELECT c.name AS category, ROUND(AVG(o.grand_total)::numeric, 2) AS avg_order_value FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY avg_order_value DESC",
+    "raw_data": {
+      "step_1": [
+        {"category": "Haircare", "avg_order_value": 152338.83},
+        {"category": "Women's Clothing", "avg_order_value": 110192.89},
+        {"category": "Kitchen Appliances", "avg_order_value": 101905.28},
+        {"category": "Men's Clothing", "avg_order_value": 99411.95},
+        {"category": "Cameras", "avg_order_value": 95911.71},
+        {"category": "Audio & Headphones", "avg_order_value": 93624.34},
+        {"category": "Skincare", "avg_order_value": 92767.23},
+        {"category": "Footwear", "avg_order_value": 86179.13},
+        {"category": "Outdoor Sports", "avg_order_value": 86022.87},
+        {"category": "Watches", "avg_order_value": 61042.15},
+        {"category": "Gym Equipment", "avg_order_value": 60269.77},
+        {"category": "Bedding & Pillows", "avg_order_value": 55174.57},
+        {"category": "Furniture", "avg_order_value": 52681.85},
+        {"category": "Mobile Phones", "avg_order_value": 49750.64},
+        {"category": "Laptops & Computers", "avg_order_value": 40660.23},
+        {"category": "Electronics", "avg_order_value": 35496.64}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders -> order_items -> product_variants -> products -> categories, group by category, AVG grand_total, ORDER BY DESC",
+        "sql": "SELECT c.name AS category, ROUND(AVG(o.grand_total)::numeric, 2) AS avg_order_value FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.name ORDER BY avg_order_value DESC",
+        "columns": ["category", "avg_order_value"],
+        "sample_rows": [{"category": "Haircare", "avg_order_value": 152338.83}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 13,
+    "category": "customer_kpi",
+    "description": "Overall KPIs: AOV, total orders, unique customers",
+    "question": "What are our key customer metrics — average order value, total orders, and unique customer count?",
+    "sql": "SELECT ROUND(AVG(grand_total)::numeric, 2) AS avg_order_value, COUNT(*) AS total_orders, COUNT(DISTINCT user_id) AS unique_customers FROM orders",
+    "raw_data": {
+      "step_1": [
+        {"avg_order_value": 63453.40, "total_orders": 200, "unique_customers": 89}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Aggregate orders: AVG grand_total, COUNT orders, COUNT DISTINCT user_id",
+        "sql": "SELECT ROUND(AVG(grand_total)::numeric, 2) AS avg_order_value, COUNT(*) AS total_orders, COUNT(DISTINCT user_id) AS unique_customers FROM orders",
+        "columns": ["avg_order_value", "total_orders", "unique_customers"],
+        "sample_rows": [{"avg_order_value": 63453.40, "total_orders": 200, "unique_customers": 89}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 14,
+    "category": "customer_kpi",
+    "description": "Repeat buyers count",
+    "question": "How many customers have placed more than one order?",
+    "sql": "SELECT COUNT(*) AS repeat_buyers FROM (SELECT user_id FROM orders GROUP BY user_id HAVING COUNT(*) > 1) sub",
+    "raw_data": {
+      "step_1": [
+        {"repeat_buyers": 58}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Count customers with more than 1 order using subquery with HAVING COUNT > 1",
+        "sql": "SELECT COUNT(*) AS repeat_buyers FROM (SELECT user_id FROM orders GROUP BY user_id HAVING COUNT(*) > 1) sub",
+        "columns": ["repeat_buyers"],
+        "sample_rows": [{"repeat_buyers": 58}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 15,
+    "category": "customer_kpi",
+    "description": "Top 5 customers by total spend",
+    "question": "Who are our top 5 customers by total spend?",
+    "sql": "SELECT u.full_name, ROUND(SUM(o.grand_total)::numeric, 2) AS total_spend, COUNT(o.order_id) AS order_count FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.user_id, u.full_name ORDER BY total_spend DESC LIMIT 5",
+    "raw_data": {
+      "step_1": [
+        {"full_name": "Divya Rao", "total_spend": 850218.09, "order_count": 7},
+        {"full_name": "Senthil Patel", "total_spend": 543783.94, "order_count": 4},
+        {"full_name": "Rohan Rao", "total_spend": 461872.48, "order_count": 4},
+        {"full_name": "Ishaan Chopra", "total_spend": 459413.46, "order_count": 4},
+        {"full_name": "Senthil Pillai", "total_spend": 446084.11, "order_count": 4}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by customer, SUM grand_total, COUNT orders, ORDER BY spend DESC LIMIT 5",
+        "sql": "SELECT u.full_name, ROUND(SUM(o.grand_total)::numeric, 2) AS total_spend, COUNT(o.order_id) AS order_count FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.user_id, u.full_name ORDER BY total_spend DESC LIMIT 5",
+        "columns": ["full_name", "total_spend", "order_count"],
+        "sample_rows": [{"full_name": "Divya Rao", "total_spend": 850218.09, "order_count": 7}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 16,
+    "category": "trend_data",
+    "description": "Monthly revenue trend over 12 months",
+    "question": "Show me the monthly revenue trend for the past year.",
+    "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, ROUND(SUM(grand_total)::numeric, 2) AS total_revenue FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+    "raw_data": {
+      "step_1": [
+        {"month": "2025-03", "total_revenue": 507684.23},
+        {"month": "2025-04", "total_revenue": 873723.50},
+        {"month": "2025-05", "total_revenue": 812892.62},
+        {"month": "2025-06", "total_revenue": 984135.24},
+        {"month": "2025-07", "total_revenue": 1970841.03},
+        {"month": "2025-08", "total_revenue": 1125708.02},
+        {"month": "2025-09", "total_revenue": 738466.01},
+        {"month": "2025-10", "total_revenue": 609772.37},
+        {"month": "2025-11", "total_revenue": 1297488.44},
+        {"month": "2025-12", "total_revenue": 1040778.82},
+        {"month": "2026-01", "total_revenue": 1833529.75},
+        {"month": "2026-02", "total_revenue": 895659.78}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group orders by month using DATE_TRUNC, SUM grand_total, ORDER BY month ASC",
+        "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, ROUND(SUM(grand_total)::numeric, 2) AS total_revenue FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+        "columns": ["month", "total_revenue"],
+        "sample_rows": [{"month": "2025-07", "total_revenue": 1970841.03}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 17,
+    "category": "trend_data",
+    "description": "Monthly order count trend over 12 months",
+    "question": "How has the number of orders changed month over month?",
+    "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, COUNT(*) AS order_count FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+    "raw_data": {
+      "step_1": [
+        {"month": "2025-03", "order_count": 11},
+        {"month": "2025-04", "order_count": 11},
+        {"month": "2025-05", "order_count": 16},
+        {"month": "2025-06", "order_count": 14},
+        {"month": "2025-07", "order_count": 20},
+        {"month": "2025-08", "order_count": 19},
+        {"month": "2025-09", "order_count": 18},
+        {"month": "2025-10", "order_count": 18},
+        {"month": "2025-11", "order_count": 18},
+        {"month": "2025-12", "order_count": 18},
+        {"month": "2026-01", "order_count": 24},
+        {"month": "2026-02", "order_count": 13}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group orders by month using DATE_TRUNC, COUNT orders, ORDER BY month ASC",
+        "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, COUNT(*) AS order_count FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+        "columns": ["month", "order_count"],
+        "sample_rows": [{"month": "2026-01", "order_count": 24}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 18,
+    "category": "trend_data",
+    "description": "Monthly average order value trend over 12 months",
+    "question": "How has the average order value changed month over month?",
+    "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, ROUND(AVG(grand_total)::numeric, 2) AS avg_order_value FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+    "raw_data": {
+      "step_1": [
+        {"month": "2025-03", "avg_order_value": 46153.11},
+        {"month": "2025-04", "avg_order_value": 79429.41},
+        {"month": "2025-05", "avg_order_value": 50805.79},
+        {"month": "2025-06", "avg_order_value": 70295.37},
+        {"month": "2025-07", "avg_order_value": 98542.05},
+        {"month": "2025-08", "avg_order_value": 59247.79},
+        {"month": "2025-09", "avg_order_value": 41025.89},
+        {"month": "2025-10", "avg_order_value": 33876.24},
+        {"month": "2025-11", "avg_order_value": 72082.69},
+        {"month": "2025-12", "avg_order_value": 57821.05},
+        {"month": "2026-01", "avg_order_value": 76397.07},
+        {"month": "2026-02", "avg_order_value": 68896.91}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group orders by month using DATE_TRUNC, AVG grand_total, ORDER BY month ASC",
+        "sql": "SELECT TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') AS month, ROUND(AVG(grand_total)::numeric, 2) AS avg_order_value FROM orders GROUP BY DATE_TRUNC('month', created_at) ORDER BY month",
+        "columns": ["month", "avg_order_value"],
+        "sample_rows": [{"month": "2025-07", "avg_order_value": 98542.05}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 19,
+    "category": "payment_method",
+    "description": "Revenue and transaction count by payment method",
+    "question": "How does revenue break down by payment method?",
+    "sql": "SELECT method AS payment_method, ROUND(SUM(amount)::numeric, 2) AS total_revenue, COUNT(*) AS transaction_count FROM payments GROUP BY method ORDER BY total_revenue DESC",
+    "raw_data": {
+      "step_1": [
+        {"payment_method": "Wallet", "total_revenue": 2322449.42, "transaction_count": 31},
+        {"payment_method": "Net Banking", "total_revenue": 2281499.57, "transaction_count": 37},
+        {"payment_method": "UPI", "total_revenue": 1851719.11, "transaction_count": 22},
+        {"payment_method": "Credit Card", "total_revenue": 1584179.71, "transaction_count": 28},
+        {"payment_method": "COD", "total_revenue": 1168275.62, "transaction_count": 34},
+        {"payment_method": "Debit Card", "total_revenue": 797093.71, "transaction_count": 27}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Group payments by method, SUM amount and COUNT transactions, ORDER BY revenue DESC",
+        "sql": "SELECT method AS payment_method, ROUND(SUM(amount)::numeric, 2) AS total_revenue, COUNT(*) AS transaction_count FROM payments GROUP BY method ORDER BY total_revenue DESC",
+        "columns": ["payment_method", "total_revenue", "transaction_count"],
+        "sample_rows": [{"payment_method": "Wallet", "total_revenue": 2322449.42, "transaction_count": 31}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 20,
+    "category": "payment_method",
+    "description": "Order count by payment method",
+    "question": "Which payment method is used most frequently for placing orders?",
+    "sql": "SELECT p.method AS payment_method, COUNT(DISTINCT o.order_id) AS order_count FROM orders o JOIN payments p ON o.order_id = p.order_id GROUP BY p.method ORDER BY order_count DESC",
+    "raw_data": {
+      "step_1": [
+        {"payment_method": "Net Banking", "order_count": 37},
+        {"payment_method": "COD", "order_count": 34},
+        {"payment_method": "Wallet", "order_count": 31},
+        {"payment_method": "Credit Card", "order_count": 28},
+        {"payment_method": "Debit Card", "order_count": 27},
+        {"payment_method": "UPI", "order_count": 22}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with payments, group by payment method, COUNT DISTINCT orders, ORDER BY DESC",
+        "sql": "SELECT p.method AS payment_method, COUNT(DISTINCT o.order_id) AS order_count FROM orders o JOIN payments p ON o.order_id = p.order_id GROUP BY p.method ORDER BY order_count DESC",
+        "columns": ["payment_method", "order_count"],
+        "sample_rows": [{"payment_method": "Net Banking", "order_count": 37}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 21,
+    "category": "low_result_count",
+    "description": "Single row — top 1 product by revenue",
+    "question": "What is the single best-selling product by revenue?",
+    "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC LIMIT 1",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Nike Running Shorts", "total_revenue": 1167950.0}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products, group by product name, SUM total_price, ORDER BY DESC LIMIT 1",
+        "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC LIMIT 1",
+        "columns": ["product_name", "total_revenue"],
+        "sample_rows": [{"product_name": "Nike Running Shorts", "total_revenue": 1167950.0}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 22,
+    "category": "low_result_count",
+    "description": "Two rows — top 2 cities by revenue",
+    "question": "What are the top 2 cities by total revenue?",
+    "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC LIMIT 2",
+    "raw_data": {
+      "step_1": [
+        {"city": "Pune", "total_revenue": 2620268.32},
+        {"city": "Jaipur", "total_revenue": 1677208.53}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by city, SUM grand_total, ORDER BY DESC LIMIT 2",
+        "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.city ORDER BY total_revenue DESC LIMIT 2",
+        "columns": ["city", "total_revenue"],
+        "sample_rows": [{"city": "Pune", "total_revenue": 2620268.32}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 23,
+    "category": "empty_result",
+    "description": "Empty result — no orders exist before 2025",
+    "question": "What was the revenue by city in 2024?",
+    "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.created_at >= '2024-01-01' AND o.created_at < '2025-01-01' GROUP BY u.city ORDER BY total_revenue DESC",
+    "raw_data": {
+      "step_1": []
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, filter created_at in 2024, group by city, SUM grand_total",
+        "sql": "SELECT u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_revenue FROM orders o JOIN users u ON o.user_id = u.user_id WHERE o.created_at >= '2024-01-01' AND o.created_at < '2025-01-01' GROUP BY u.city ORDER BY total_revenue DESC",
+        "columns": ["city", "total_revenue"],
+        "sample_rows": []
+      }
+    ],
+    "geval_metrics": ["question_relevance", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 24,
+    "category": "large_result_sample",
+    "description": "All 47 products by revenue — LLM must summarize",
+    "question": "Show me revenue for every product we sell.",
+    "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC",
+    "raw_data": {
+      "step_1": [
+        {"product_name": "Nike Running Shorts", "total_revenue": 1167950.0},
+        {"product_name": "Mamaearth Onion Shampoo", "total_revenue": 1002955.0},
+        {"product_name": "Adidas Ultraboost 22", "total_revenue": 1002935.0},
+        {"product_name": "Himalaya Anti-Dandruff Shampoo", "total_revenue": 920772.0},
+        {"product_name": "Nike Air Force 1", "total_revenue": 911972.0},
+        {"product_name": "Decathlon Swimming Goggles", "total_revenue": 600978.0},
+        {"product_name": "Noise Colorfit Pro 4", "total_revenue": 457771.0},
+        {"product_name": "Philips Electric Kettle", "total_revenue": 426464.0},
+        {"product_name": "Sony Alpha A6400 Camera", "total_revenue": 422453.0},
+        {"product_name": "boAt Stone 650 Bluetooth Speaker", "total_revenue": 320977.0},
+        {"product_name": "Sony WH-1000XM5 Headphones", "total_revenue": 274972.0},
+        {"product_name": "Apple MacBook Air M2", "total_revenue": 244488.0},
+        {"product_name": "boAt Airdopes 141", "total_revenue": 236171.0},
+        {"product_name": "Adidas Tiro Track Pants", "total_revenue": 232470.0},
+        {"product_name": "Nike Dri-FIT T-Shirt", "total_revenue": 223996.0},
+        {"product_name": "Bombay Dyeing Bedsheet Set", "total_revenue": 218593.0},
+        {"product_name": "Ikea LACK Coffee Table", "total_revenue": 196959.0},
+        {"product_name": "Prestige Induction Cooktop", "total_revenue": 140474.0},
+        {"product_name": "Women's Floral Kurti", "total_revenue": 129984.0},
+        {"product_name": "Wildcraft Backpack 45L", "total_revenue": 109965.0},
+        {"product_name": "Sony Xperia 5 V", "total_revenue": 106564.0},
+        {"product_name": "Decathlon Dumbbells 5kg Pair", "total_revenue": 100971.0},
+        {"product_name": "Mamaearth Vitamin C Serum", "total_revenue": 100962.0},
+        {"product_name": "Puma Essential Hoodie", "total_revenue": 99378.0},
+        {"product_name": "Himalaya Moisturizing Cream", "total_revenue": 98989.0},
+        {"product_name": "Decathlon Domyos Yoga Mat", "total_revenue": 97986.0},
+        {"product_name": "Himalaya Face Wash", "total_revenue": 90993.0},
+        {"product_name": "Philips Hair Dryer", "total_revenue": 90993.0},
+        {"product_name": "boAt Rockerz 450", "total_revenue": 84990.0},
+        {"product_name": "Adidas Performance Socks 3pk", "total_revenue": 62993.0},
+        {"product_name": "Samsung Galaxy Book3", "total_revenue": 62991.0},
+        {"product_name": "Casio Digital Watch", "total_revenue": 55984.0},
+        {"product_name": "Wakefit Orthopaedic Mattress", "total_revenue": 55984.0},
+        {"product_name": "Cosco Skipping Rope", "total_revenue": 55974.0},
+        {"product_name": "Levi's 511 Slim Fit Jeans", "total_revenue": 54468.0},
+        {"product_name": "Fastrack Analog Watch", "total_revenue": 43989.0},
+        {"product_name": "OnePlus 12R", "total_revenue": 41988.0},
+        {"product_name": "Samsung Galaxy S24", "total_revenue": 40975.0},
+        {"product_name": "Decathlon Quechua Tent 2P", "total_revenue": 35988.0},
+        {"product_name": "Puma Suede Classic", "total_revenue": 31984.0},
+        {"product_name": "Samsung 65\" 4K Smart TV", "total_revenue": 29998.0},
+        {"product_name": "Decathlon Resistance Bands", "total_revenue": 20994.0},
+        {"product_name": "Ikea KALLAX Shelf", "total_revenue": 16191.0},
+        {"product_name": "Philips Air Fryer", "total_revenue": 13386.0},
+        {"product_name": "Samsung Galaxy A54", "total_revenue": 10989.0},
+        {"product_name": "HP Pavilion Laptop 15", "total_revenue": 5196.0},
+        {"product_name": "Ikea MALM Bed Frame", "total_revenue": 2499.0}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join order_items -> product_variants -> products, group by product name, SUM total_price, ORDER BY DESC",
+        "sql": "SELECT p.name AS product_name, ROUND(SUM(oi.total_price)::numeric, 2) AS total_revenue FROM order_items oi JOIN product_variants pv ON oi.variant_id = pv.variant_id JOIN products p ON pv.product_id = p.product_id GROUP BY p.name ORDER BY total_revenue DESC",
+        "columns": ["product_name", "total_revenue"],
+        "sample_rows": [{"product_name": "Nike Running Shorts", "total_revenue": 1167950.0}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  },
+  {
+    "id": 25,
+    "category": "large_result_sample",
+    "description": "All 89 customers by spend — LLM must summarize",
+    "question": "Show me total spend for every customer.",
+    "sql": "SELECT u.full_name AS customer_name, u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_spend FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.user_id, u.full_name, u.city ORDER BY total_spend DESC",
+    "raw_data": {
+      "step_1": [
+        {"customer_name": "Divya Rao", "city": "Chennai", "total_spend": 850218.09},
+        {"customer_name": "Senthil Patel", "city": "Bangalore", "total_spend": 543783.94},
+        {"customer_name": "Rohan Rao", "city": "Jaipur", "total_spend": 461872.48},
+        {"customer_name": "Ishaan Chopra", "city": "Bangalore", "total_spend": 459413.46},
+        {"customer_name": "Senthil Pillai", "city": "Pune", "total_spend": 446084.11},
+        {"customer_name": "Sunil Menon", "city": "Lucknow", "total_spend": 446059.50},
+        {"customer_name": "Amit Krishnan", "city": "Kolkata", "total_spend": 438930.31},
+        {"customer_name": "Seema Subramanian", "city": "Pune", "total_spend": 432653.84},
+        {"customer_name": "Asha Nair", "city": "Delhi", "total_spend": 418897.73},
+        {"customer_name": "Vandana Menon", "city": "Pune", "total_spend": 382092.02},
+        {"customer_name": "Usha Tiwari", "city": "Jaipur", "total_spend": 347762.84},
+        {"customer_name": "Naveen Rao", "city": "Pune", "total_spend": 344594.84},
+        {"customer_name": "Sudha Mehta", "city": "Jaipur", "total_spend": 333021.74},
+        {"customer_name": "Lata Gupta", "city": "Chennai", "total_spend": 301980.76},
+        {"customer_name": "Pooja Singh", "city": "Bangalore", "total_spend": 284801.02},
+        {"customer_name": "Ananya Krishnan", "city": "Jaipur", "total_spend": 277018.47},
+        {"customer_name": "Mahesh Kumar", "city": "Delhi", "total_spend": 276363.02},
+        {"customer_name": "Seema Gupta", "city": "Hyderabad", "total_spend": 275173.84},
+        {"customer_name": "Abhishek Sharma", "city": "Pune", "total_spend": 267855.28},
+        {"customer_name": "Usha Shah", "city": "Delhi", "total_spend": 265496.46},
+        {"customer_name": "Naresh Bhatia", "city": "Chennai", "total_spend": 257754.59},
+        {"customer_name": "Ayaan Yadav", "city": "Pune", "total_spend": 255559.56},
+        {"customer_name": "Swati Tiwari", "city": "Kolkata", "total_spend": 253067.39},
+        {"customer_name": "Veena Joshi", "city": "Ahmedabad", "total_spend": 250243.66},
+        {"customer_name": "Parvathi Gupta", "city": "Pune", "total_spend": 227314.46},
+        {"customer_name": "Tarun Sehgal", "city": "Hyderabad", "total_spend": 188386.21},
+        {"customer_name": "Geeta Pandey", "city": "Bangalore", "total_spend": 187984.18},
+        {"customer_name": "Ajay Sehgal", "city": "Ahmedabad", "total_spend": 170607.76},
+        {"customer_name": "Anjali Menon", "city": "Pune", "total_spend": 161319.61},
+        {"customer_name": "Savita Rao", "city": "Mumbai", "total_spend": 160778.52},
+        {"customer_name": "Indira Iyer", "city": "Chennai", "total_spend": 142663.68},
+        {"customer_name": "Anjali Patel", "city": "Ahmedabad", "total_spend": 122528.28},
+        {"customer_name": "Ajay Patel", "city": "Jaipur", "total_spend": 119975.20},
+        {"customer_name": "Harsh Singh", "city": "Mumbai", "total_spend": 115631.74},
+        {"customer_name": "Indira Ahuja", "city": "Kolkata", "total_spend": 115305.09},
+        {"customer_name": "Rajesh Pandey", "city": "Kolkata", "total_spend": 113423.10},
+        {"customer_name": "Shobha Khanna", "city": "Ahmedabad", "total_spend": 108754.46},
+        {"customer_name": "Vandana Yadav", "city": "Hyderabad", "total_spend": 95511.56},
+        {"customer_name": "Seema Kumar", "city": "Ahmedabad", "total_spend": 95071.48},
+        {"customer_name": "Naveen Krishnan", "city": "Mumbai", "total_spend": 93101.74},
+        {"customer_name": "Anjali Gupta", "city": "Pune", "total_spend": 90408.14},
+        {"customer_name": "Mythili Iyengar", "city": "Lucknow", "total_spend": 89170.12},
+        {"customer_name": "Archana Sharma", "city": "Ahmedabad", "total_spend": 80316.76},
+        {"customer_name": "Parvathi Gupta", "city": "Mumbai", "total_spend": 80226.83},
+        {"customer_name": "Ajay Iyer", "city": "Jaipur", "total_spend": 72592.85},
+        {"customer_name": "Tushar Chopra", "city": "Delhi", "total_spend": 71787.10},
+        {"customer_name": "Murugan Krishnan", "city": "Kolkata", "total_spend": 70797.64},
+        {"customer_name": "Ishaan Krishnan", "city": "Delhi", "total_spend": 67338.92},
+        {"customer_name": "Kavya Ahuja", "city": "Kolkata", "total_spend": 62907.48},
+        {"customer_name": "Sumathi Sehgal", "city": "Mumbai", "total_spend": 59509.22},
+        {"customer_name": "Rekha Yadav", "city": "Hyderabad", "total_spend": 57000.95},
+        {"customer_name": "Murugan Chopra", "city": "Jaipur", "total_spend": 56674.84},
+        {"customer_name": "Pallavi Tiwari", "city": "Ahmedabad", "total_spend": 49699.56},
+        {"customer_name": "Usha Ahuja", "city": "Delhi", "total_spend": 48755.56},
+        {"customer_name": "Varun Kumar", "city": "Ahmedabad", "total_spend": 41437.20},
+        {"customer_name": "Pallavi Arora", "city": "Mumbai", "total_spend": 41135.52},
+        {"customer_name": "Chitra Gupta", "city": "Ahmedabad", "total_spend": 40446.74},
+        {"customer_name": "Vihaan Rao", "city": "Bangalore", "total_spend": 39817.36},
+        {"customer_name": "Ayaan Bhatia", "city": "Bangalore", "total_spend": 39304.94},
+        {"customer_name": "Girish Patel", "city": "Kolkata", "total_spend": 37728.02},
+        {"customer_name": "Naveen Khanna", "city": "Kolkata", "total_spend": 33134.28},
+        {"customer_name": "Chitra Reddy", "city": "Delhi", "total_spend": 31558.56},
+        {"customer_name": "Aryan Pandey", "city": "Chennai", "total_spend": 31341.92},
+        {"customer_name": "Girish Bhatia", "city": "Ahmedabad", "total_spend": 23800.48},
+        {"customer_name": "Amit Tiwari", "city": "Hyderabad", "total_spend": 21386.64},
+        {"customer_name": "Savita Pillai", "city": "Delhi", "total_spend": 21286.64},
+        {"customer_name": "Gaurav Mehta", "city": "Mumbai", "total_spend": 19507.20},
+        {"customer_name": "Sunil Menon", "city": "Lucknow", "total_spend": 18498.74},
+        {"customer_name": "Girish Joshi", "city": "Bangalore", "total_spend": 17438.08},
+        {"customer_name": "Sneha Singh", "city": "Ahmedabad", "total_spend": 16632.10},
+        {"customer_name": "Kiran Chopra", "city": "Mumbai", "total_spend": 16564.28},
+        {"customer_name": "Vijayakumar Chopra", "city": "Chennai", "total_spend": 14824.10},
+        {"customer_name": "Kartik Bhatia", "city": "Chennai", "total_spend": 14304.28},
+        {"customer_name": "Seema Kumar", "city": "Chennai", "total_spend": 12651.12},
+        {"customer_name": "Indira Yadav", "city": "Delhi", "total_spend": 12535.46},
+        {"customer_name": "Savita Kumar", "city": "Pune", "total_spend": 12386.46},
+        {"customer_name": "Anjali Yadav", "city": "Delhi", "total_spend": 8895.46},
+        {"customer_name": "Rahul Sharma", "city": "Chennai", "total_spend": 8407.82},
+        {"customer_name": "Krishna Rao", "city": "Mumbai", "total_spend": 8407.82},
+        {"customer_name": "Parvathi Joshi", "city": "Chennai", "total_spend": 8356.64},
+        {"customer_name": "Parvathi Naidu", "city": "Chennai", "total_spend": 7990.19},
+        {"customer_name": "Pushpa Chopra", "city": "Lucknow", "total_spend": 7931.28},
+        {"customer_name": "Vivaan Sehgal", "city": "Bangalore", "total_spend": 7077.64},
+        {"customer_name": "Krishna Kapoor", "city": "Chennai", "total_spend": 6537.82},
+        {"customer_name": "Ayaan Iyer", "city": "Delhi", "total_spend": 5996.64},
+        {"customer_name": "Rajesh Malhotra", "city": "Jaipur", "total_spend": 5883.47},
+        {"customer_name": "Aarav Subramanian", "city": "Chennai", "total_spend": 4697.46},
+        {"customer_name": "Sneha Krishnan", "city": "Delhi", "total_spend": 4128.82},
+        {"customer_name": "Shreya Verma", "city": "Jaipur", "total_spend": 2406.64}
+      ]
+    },
+    "completed_steps": [
+      {
+        "step_number": 1,
+        "objective": "Join orders with users, group by customer, SUM grand_total, ORDER BY DESC",
+        "sql": "SELECT u.full_name AS customer_name, u.city, ROUND(SUM(o.grand_total)::numeric, 2) AS total_spend FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.user_id, u.full_name, u.city ORDER BY total_spend DESC",
+        "columns": ["customer_name", "city", "total_spend"],
+        "sample_rows": [{"customer_name": "Divya Rao", "city": "Chennai", "total_spend": 850218.09}]
+      }
+    ],
+    "geval_metrics": ["factual_accuracy", "question_relevance", "data_coverage", "executive_clarity", "no_hallucination"]
+  }
+]

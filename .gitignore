@@ -24,3 +24,5 @@ docker-compose.override.yml
 .deepeval
 
 chroma_db/
+
+docs/

@@ -120,3 +120,96 @@ def make_followup_state(
             instruction=instruction,
         ),
     )
+
+
+def make_validator_state(
+    question: str,
+    objective: str,
+    sql: str,
+    table_schema: str,
+    retry_count: int = 0,
+) -> AgentState:
+    """State for validator node tests."""
+    return AgentState(
+        messages=[HumanMessage(content=question)],
+        current_user_query=question,
+        resolved_query=question,
+        plan=[PlanStep(step_number=1, objective=objective)],
+        plan_index=0,
+        sql=sql,
+        table_schema=table_schema,
+        retry_count=retry_count,
+    )
+
+
+def make_sql_agent_state(
+    question: str,
+    objective: str,
+    table_schema: str,
+    validation_feedback: dict | None = None,
+    error: str | None = None,
+) -> AgentState:
+    """State for sql_agent node tests."""
+    return AgentState(
+        messages=[HumanMessage(content=question)],
+        current_user_query=question,
+        resolved_query=question,
+        plan=[PlanStep(step_number=1, objective=objective)],
+        plan_index=0,
+        table_schema=table_schema,
+        validation_feedback=validation_feedback,
+        error=error,
+        retry_count=1 if validation_feedback else 0,
+    )
+
+
+def make_query_planner_state(
+    question: str,
+    intent_result_dict: dict,
+    table_schema: str,
+) -> AgentState:
+    """State for query_planner node tests."""
+    return AgentState(
+        messages=[HumanMessage(content=question)],
+        current_user_query=question,
+        resolved_query=question,
+        intent_result=IntentClassifierSchema(**intent_result_dict),
+        table_schema=table_schema,
+    )
+
+
+def make_executor_state(sql: str, plan_index: int = 0) -> AgentState:
+    """State for sql_executor node tests."""
+    return AgentState(
+        messages=[HumanMessage(content="test query")],
+        current_user_query="test query",
+        plan=[PlanStep(step_number=plan_index + 1, objective="test objective")],
+        plan_index=plan_index,
+        sql=sql,
+        raw_data=None,
+    )
+
+
+def make_reporter_state(
+    question: str,
+    completed_steps: list[dict],
+    raw_data: dict,
+) -> AgentState:
+    """State for analytics_reporter node tests."""
+    return AgentState(
+        messages=[HumanMessage(content=question)],
+        current_user_query=question,
+        resolved_query=question,
+        completed_steps=completed_steps,
+        raw_data=raw_data,
+    )
+
+
+def make_summarizer_state(question: str, raw_schema: str) -> AgentState:
+    """State for schema_summarizer node tests."""
+    return AgentState(
+        messages=[HumanMessage(content=question)],
+        current_user_query=question,
+        resolved_query=question,
+        table_schema=raw_schema,
+    )

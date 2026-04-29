@@ -19,12 +19,15 @@ services:
       DATABASE_URL: postgresql+psycopg://dev_user:root123@db:5432/ecommerce
       READ_DATABASE_URL: postgresql+psycopg://analyst_bot:root123@db:5432/ecommerce
     volumes:
-      # Bind-mount the pre-populated ChromaDB directory from the host.
-      # The existing ./chroma_db contains embedded schema collection from git.
-      - ./chroma_db:/app/chroma_db
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
+      # Bind-mount source code for hot-reload — changes on host reflect immediately.
+      - .:/app
+      # Re-mount the venv from the image so the host directory doesn't shadow it.
+      - /app/.venv
+      - /app/.cache
+    command: ["uvicorn", "main:api", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - chatbot_net
@@ -36,31 +39,31 @@ services:
   # above, and set DATABASE_URL/READ_DATABASE_URL in your .env
   # to point to your external host.
   # ----------------------------------------------------------
-  # db:
-  #   image: postgres:16-alpine
-  #   container_name: ecom_chatbot_db
-  #   environment:
-  #     POSTGRES_DB: ecommerce
-  #     POSTGRES_USER: dev_user
-  #     POSTGRES_PASSWORD: root123
-  #   ports:
-  #     # Exposed to host for tools like pgAdmin or psql.
-  #     # Remove this in production to keep the DB internal-only.
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #     # Init scripts run on first container creation (schema + seed data).
-  #     # Place .sql files in ./docker/postgres/init/ — they run in filename order.
-  #     - ./docker/postgres/init:/docker-entrypoint-initdb.d
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U dev_user -d ecommerce"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #     start_period: 10s
-  #   restart: unless-stopped
-  #   networks:
-  #     - chatbot_net
+  db:
+    image: postgres:16-alpine
+    container_name: ecom_chatbot_db
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: root123
+    ports:
+      # Exposed to host for tools like pgAdmin or psql.
+      # Remove this in production to keep the DB internal-only.
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Init scripts run on first container creation (schema + seed data).
+      # Place .sql files in ./docker/postgres/init/ — they run in filename order.
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev_user -d ecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - chatbot_net
 
 # ----------------------------------------------------------
 # Named Volumes

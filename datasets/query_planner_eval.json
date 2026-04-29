@@ -1,0 +1,422 @@
+[
+  {
+    "id": 1,
+    "category": "simple_aggregation",
+    "description": "Revenue by city last 30 days (orders+users only)",
+    "question": "What is the total revenue by city in the last 30 days?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": "city",
+      "date_range": "last_30_days",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 2,
+    "category": "simple_aggregation",
+    "description": "Total order count by status (orders only, no join needed)",
+    "question": "How many orders are in each status?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "orders",
+      "group_by": "status",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 3,
+    "category": "simple_aggregation",
+    "description": "Average order value by state (orders+users)",
+    "question": "What is the average order value per state?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "average_order_value",
+      "group_by": "state",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 4,
+    "category": "simple_aggregation",
+    "description": "Total revenue this month — no join, SUM(o.grand_total) is correct",
+    "question": "What is the total revenue this month?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": null,
+      "date_range": "this_month",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 5,
+    "category": "product_revenue",
+    "description": "Revenue by product category — full 5-table chain, must specify SUM(oi.total_price)",
+    "question": "What is the total revenue by product category?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": "category",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification"]
+  },
+  {
+    "id": 6,
+    "category": "product_revenue",
+    "description": "Revenue by brand — full chain through brands table, must specify SUM(oi.total_price)",
+    "question": "How much revenue did each brand generate?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": "brand",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, brand_id FK->brands, name VARCHAR, status VARCHAR)\nTable: brands (brand_id PK, name VARCHAR, country VARCHAR, segment VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification"]
+  },
+  {
+    "id": 7,
+    "category": "product_revenue",
+    "description": "Revenue per product last quarter — SUM(oi.total_price) with date filter on o.created_at",
+    "question": "What is the total revenue per product in the last quarter?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": "product",
+      "date_range": "last_quarter",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification", "date_filter_precision"]
+  },
+  {
+    "id": 8,
+    "category": "product_revenue",
+    "description": "Category revenue this year ranked — full 5-table chain, SUM(oi.total_price), year filter",
+    "question": "Which categories generated the most revenue this year?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "revenue",
+      "group_by": "category",
+      "date_range": "this_year",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification", "date_filter_precision"]
+  },
+  {
+    "id": 9,
+    "category": "top_n_with_limit",
+    "description": "Top 5 customers by total spend — LIMIT 5, ORDER BY total_spend DESC",
+    "question": "Who are the top 5 customers by total spend?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "spend",
+      "group_by": "customer",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 10,
+    "category": "top_n_with_limit",
+    "description": "Top 10 most ordered products — LIMIT 10, ORDER BY order count DESC, order_items chain",
+    "question": "What are the top 10 most ordered products?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "orders",
+      "group_by": "product",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 11,
+    "category": "top_n_with_limit",
+    "description": "Top 3 cities by revenue last month — LIMIT 3, date filter on o.created_at",
+    "question": "Which 3 cities had the highest revenue last month?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "revenue",
+      "group_by": "city",
+      "date_range": "last_month",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 12,
+    "category": "date_filter",
+    "description": "Revenue last 30 days — CURRENT_DATE - INTERVAL '30 days' pattern",
+    "question": "What is the total revenue in the last 30 days?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": null,
+      "date_range": "last_30_days",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["date_filter_precision"]
+  },
+  {
+    "id": 13,
+    "category": "date_filter",
+    "description": "Order count this month — DATE_TRUNC('month', ...) = DATE_TRUNC('month', CURRENT_DATE) pattern",
+    "question": "How many orders were placed this month?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "orders",
+      "group_by": null,
+      "date_range": "this_month",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 14,
+    "category": "date_filter",
+    "description": "Total revenue in 2024 — year boundary pattern: >= '2024-01-01' AND < '2025-01-01'",
+    "question": "What was the total revenue in 2024?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": null,
+      "date_range": "2024",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 15,
+    "category": "date_filter",
+    "description": "Revenue for explicit date range Q1 2025 — explicit boundary pattern",
+    "question": "What is the revenue between January 1 and March 31, 2025?",
+    "intent_result": {
+      "intent": "kpi_lookup",
+      "metric": "revenue",
+      "group_by": null,
+      "date_range": "2025-01-01_to_2025-03-31",
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 16,
+    "category": "exclusion_pattern",
+    "description": "Customers who placed orders but never reviewed — NOT EXISTS on reviews",
+    "question": "Which customers have placed orders but never written a review?",
+    "intent_result": {
+      "intent": "segmentation",
+      "metric": null,
+      "group_by": "customer",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)\nTable: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: reviews (review_id PK, user_id FK->users, product_id FK->products, rating INT, review_text VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 17,
+    "category": "exclusion_pattern",
+    "description": "Users with orders but no completed payment — NOT EXISTS or LEFT JOIN/IS NULL on payments",
+    "question": "Which users have orders with no completed payment?",
+    "intent_result": {
+      "intent": "operational",
+      "metric": null,
+      "group_by": null,
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)\nTable: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: payments (payment_id PK, order_id FK->orders, method VARCHAR, status VARCHAR, amount NUMERIC, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 18,
+    "category": "exclusion_pattern",
+    "description": "Products with no sales in last 90 days — NOT EXISTS traversing order_items chain with date filter",
+    "question": "Which products have had no sales in the last 90 days?",
+    "intent_result": {
+      "intent": "anomaly",
+      "metric": "sales",
+      "group_by": "product",
+      "date_range": "last_90_days",
+      "needs_chart": false
+    },
+    "table_schema": "Table: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 19,
+    "category": "window_function",
+    "description": "Top revenue product per category — RANK() OVER (PARTITION BY c.category_id ORDER BY revenue DESC)",
+    "question": "What is the top revenue-generating product within each category?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "revenue",
+      "group_by": "category",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification"]
+  },
+  {
+    "id": 20,
+    "category": "window_function",
+    "description": "Highest spending customer per city — RANK() OVER (PARTITION BY u.city ORDER BY total_spend DESC)",
+    "question": "Who is the highest spending customer in each city?",
+    "intent_result": {
+      "intent": "top_n",
+      "metric": "spend",
+      "group_by": "city",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 21,
+    "category": "window_function",
+    "description": "Most recent order per user — RANK() OVER (PARTITION BY user_id ORDER BY created_at DESC), WHERE rank = 1",
+    "question": "What is the most recent order for each user?",
+    "intent_result": {
+      "intent": "operational",
+      "metric": null,
+      "group_by": "user",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 22,
+    "category": "comparison",
+    "description": "Cities with above-average revenue — CTE computing overall average, then filter city totals above it",
+    "question": "Which cities have above-average total revenue?",
+    "intent_result": {
+      "intent": "comparison",
+      "metric": "revenue",
+      "group_by": "city",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 23,
+    "category": "comparison",
+    "description": "Products with below-average order count — CTE for average order count per product, then filter",
+    "question": "Which products have a below-average number of orders compared to other products?",
+    "intent_result": {
+      "intent": "comparison",
+      "metric": "orders",
+      "group_by": "product",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 24,
+    "category": "comparison",
+    "description": "Customers spending above the overall average — CTE with AVG(o.grand_total) per user, compare to global avg",
+    "question": "Which customers spend more than the average customer?",
+    "intent_result": {
+      "intent": "comparison",
+      "metric": "spend",
+      "group_by": "customer",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 25,
+    "category": "segmentation",
+    "description": "Customer spend tier segmentation — CASE WHEN buckets on SUM(o.grand_total)",
+    "question": "Segment customers into high, medium, and low spenders based on their total spend",
+    "intent_result": {
+      "intent": "segmentation",
+      "metric": "spend",
+      "group_by": "customer",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR)",
+    "geval_metrics": ["objective_completeness"]
+  },
+  {
+    "id": 26,
+    "category": "segmentation",
+    "description": "Monthly revenue by category for last 6 months — DATE_TRUNC month grouping with 5-table chain",
+    "question": "What is the monthly revenue breakdown by product category for the last 6 months?",
+    "intent_result": {
+      "intent": "trend_analysis",
+      "metric": "revenue",
+      "group_by": "category",
+      "date_range": "last_6_months",
+      "needs_chart": true
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification", "date_filter_precision"]
+  },
+  {
+    "id": 27,
+    "category": "segmentation",
+    "description": "New user signups per month this year — DATE_TRUNC on users.created_at, year boundary filter",
+    "question": "How many new customers signed up each month this year?",
+    "intent_result": {
+      "intent": "trend_analysis",
+      "metric": "customers",
+      "group_by": "month",
+      "date_range": "this_year",
+      "needs_chart": true
+    },
+    "table_schema": "Table: users (user_id PK, full_name VARCHAR, email VARCHAR, city VARCHAR, state VARCHAR, created_at TIMESTAMP)",
+    "geval_metrics": ["objective_completeness", "date_filter_precision"]
+  },
+  {
+    "id": 28,
+    "category": "segmentation",
+    "description": "Category-product revenue and order count — complex GROUP BY c.name, p.name with SUM and COUNT",
+    "question": "Show revenue and order count grouped by category and product",
+    "intent_result": {
+      "intent": "segmentation",
+      "metric": "revenue",
+      "group_by": "category",
+      "date_range": null,
+      "needs_chart": false
+    },
+    "table_schema": "Table: orders (order_id PK, user_id FK->users, grand_total NUMERIC, status VARCHAR, created_at TIMESTAMP)\nTable: order_items (item_id PK, order_id FK->orders, variant_id FK->product_variants, quantity INT, unit_price NUMERIC, total_price NUMERIC)\nTable: product_variants (variant_id PK, product_id FK->products, sku VARCHAR, price NUMERIC)\nTable: products (product_id PK, category_id FK->categories, name VARCHAR, status VARCHAR)\nTable: categories (category_id PK, name VARCHAR, slug VARCHAR)",
+    "geval_metrics": ["objective_completeness", "aggregation_rule_adherence", "join_path_specification"]
+  }
+]

@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "scenario": "simple KPI revenue",
+    "query": "What is the total revenue this month?",
+    "expected_intent": "kpi_lookup",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 2,
+    "scenario": "simple KPI order count",
+    "query": "How many orders were placed today?",
+    "expected_intent": "kpi_lookup",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 3,
+    "scenario": "simple KPI average order value",
+    "query": "What is the current average order value?",
+    "expected_intent": "kpi_lookup",
+    "expected_metric": "average_order_value",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 4,
+    "scenario": "trend monthly revenue",
+    "query": "Show me month-wise revenue for the last 6 months",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 5,
+    "scenario": "trend weekly order volume",
+    "query": "How has the order volume changed weekly over the last 3 months?",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "orders",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 6,
+    "scenario": "trend daily revenue Q4",
+    "query": "What is the daily revenue trend in Q4?",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 7,
+    "scenario": "comparison two categories",
+    "query": "Compare revenue of Electronics vs Clothing",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 8,
+    "scenario": "comparison two cities",
+    "query": "Which city has more orders, Mumbai or Delhi?",
+    "expected_intent": "comparison",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 9,
+    "scenario": "comparison month over month",
+    "query": "How does this month compare to last month in terms of revenue?",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 10,
+    "scenario": "top_n products by revenue",
+    "query": "What are the top 5 products by revenue?",
+    "expected_intent": "top_n",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 11,
+    "scenario": "top_n customers by spend",
+    "query": "Show the top 10 customers by total spend",
+    "expected_intent": "top_n",
+    "expected_metric": "spend",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 12,
+    "scenario": "top_n cities by order count",
+    "query": "Which 3 cities have the highest order count?",
+    "expected_intent": "top_n",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 13,
+    "scenario": "anomaly spike detection",
+    "query": "Are there any unusual spikes in orders last week?",
+    "expected_intent": "anomaly",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 14,
+    "scenario": "anomaly drop in sales",
+    "query": "Which products had abnormal drops in sales this month?",
+    "expected_intent": "anomaly",
+    "expected_metric": "sales",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 15,
+    "scenario": "forecast next quarter",
+    "query": "What will revenue look like next quarter?",
+    "expected_intent": "forecast",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 16,
+    "scenario": "forecast next month orders",
+    "query": "Predict order volume for next month",
+    "expected_intent": "forecast",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 17,
+    "scenario": "segmentation customer spend",
+    "query": "Group customers by their total spend",
+    "expected_intent": "segmentation",
+    "expected_metric": "spend",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 18,
+    "scenario": "segmentation products by category",
+    "query": "Segment products by category and average rating",
+    "expected_intent": "segmentation",
+    "expected_metric": "rating",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 19,
+    "scenario": "segmentation cross-category buyers",
+    "query": "Which customers bought Electronics but not Sports?",
+    "expected_intent": "segmentation",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 20,
+    "scenario": "operational pending orders",
+    "query": "List all pending orders",
+    "expected_intent": "operational",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 21,
+    "scenario": "operational stuck orders",
+    "query": "Show me orders stuck in processing for more than 3 days",
+    "expected_intent": "operational",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 22,
+    "scenario": "operational delayed shipments",
+    "query": "Which shipments are delayed?",
+    "expected_intent": "operational",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 23,
+    "scenario": "restricted DELETE",
+    "query": "Delete all cancelled orders",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 24,
+    "scenario": "restricted UPDATE",
+    "query": "Update the price of product ID 5 to 500",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 25,
+    "scenario": "restricted DROP",
+    "query": "DROP TABLE orders",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  }
+]

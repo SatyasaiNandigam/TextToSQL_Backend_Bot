@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "scenario": "top_n disguised as kpi - best product by revenue",
+    "query": "What product made the most money last month?",
+    "expected_intent": "top_n",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 2,
+    "scenario": "top_n disguised as kpi - highest spending customer",
+    "query": "Which customer has spent the most overall?",
+    "expected_intent": "top_n",
+    "expected_metric": "spend",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 3,
+    "scenario": "top_n disguised as kpi - best-selling item this quarter",
+    "query": "What was the best-selling item this quarter?",
+    "expected_intent": "top_n",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 4,
+    "scenario": "comparison not segmentation - high vs low value customers",
+    "query": "How do high-value vs low-value customers compare in order frequency?",
+    "expected_intent": "comparison",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 5,
+    "scenario": "comparison not segmentation - active vs inactive revenue",
+    "query": "What is the revenue difference between active and inactive customers?",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 6,
+    "scenario": "segmentation not comparison - Electronics vs Sports buyers behavior",
+    "query": "Show me how Electronics buyers differ from Sports buyers in purchase behavior",
+    "expected_intent": "segmentation",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 7,
+    "scenario": "comparison not trend - Electronics Q3 vs Q4",
+    "query": "How did Electronics perform in Q3 vs Q4 this year?",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 8,
+    "scenario": "trend not comparison - revenue growth Jan to Jun",
+    "query": "Show me how revenue grew from January to June",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 9,
+    "scenario": "comparison not trend - first half vs second half revenue",
+    "query": "Was there more revenue in the first half or second half of the year?",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 10,
+    "scenario": "restricted disguised as operational - remove duplicates",
+    "query": "Can you remove the duplicate orders from the database?",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 11,
+    "scenario": "restricted disguised as operational - fix order status",
+    "query": "Fix the status of order 1234 to delivered",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 12,
+    "scenario": "restricted disguised as cleanup - purge test orders",
+    "query": "Clean up all test orders from the database",
+    "expected_intent": "restricted_operations",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 13,
+    "scenario": "anomaly implicit - products selling less than usual",
+    "query": "Are there products selling way less than usual this week?",
+    "expected_intent": "anomaly",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 14,
+    "scenario": "anomaly implicit - order count seems off",
+    "query": "Something seems off with last week's order count, can you check?",
+    "expected_intent": "anomaly",
+    "expected_metric": "orders",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 15,
+    "scenario": "forecast implicit - based on trend where will revenue be",
+    "query": "Based on current trends, where will revenue be by year end?",
+    "expected_intent": "forecast",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 16,
+    "scenario": "forecast implicit - if growth continues next quarter",
+    "query": "If current growth continues, what will revenue look like next quarter?",
+    "expected_intent": "forecast",
+    "expected_metric": "revenue",
+    "expected_needs_chart": false
+  },
+  {
+    "id": 17,
+    "scenario": "needs_chart explicit - plot monthly revenue trend",
+    "query": "Can you plot the monthly revenue trend for the last year?",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 18,
+    "scenario": "needs_chart explicit - bar chart top 10 products",
+    "query": "Show me a bar chart of the top 10 products by total sales",
+    "expected_intent": "top_n",
+    "expected_metric": "sales",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 19,
+    "scenario": "needs_chart explicit - visualize category revenue comparison",
+    "query": "Visualize how different categories compare in total revenue",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 20,
+    "scenario": "needs_chart explicit - graph weekly order volume",
+    "query": "Graph the weekly order volume trend over the past 3 months",
+    "expected_intent": "trend_analysis",
+    "expected_metric": "orders",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 21,
+    "scenario": "needs_chart explicit - pie chart payment distribution",
+    "query": "Create a pie chart showing revenue distribution across payment methods",
+    "expected_intent": "segmentation",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 22,
+    "scenario": "multi-intent top_n with trend - top cities and trend",
+    "query": "Show me the top 5 cities by revenue and how their sales have trended over the past 6 months",
+    "expected_intent": "top_n",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 23,
+    "scenario": "multi-intent comparison with trend - Electronics vs Clothing over time",
+    "query": "Compare the revenue trend of Electronics and Clothing over the past year",
+    "expected_intent": "comparison",
+    "expected_metric": "revenue",
+    "expected_needs_chart": true
+  },
+  {
+    "id": 24,
+    "scenario": "multi-intent anomaly with top_n - anomalous high return categories",
+    "query": "Which 3 categories have the most unusually high return rates this month?",
+    "expected_intent": "anomaly",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  },
+  {
+    "id": 25,
+    "scenario": "multi-intent segmentation with forecast - segment and project",
+    "query": "Segment customers by purchase frequency and predict how each segment will grow next quarter",
+    "expected_intent": "segmentation",
+    "expected_metric": null,
+    "expected_needs_chart": false
+  }
+]
