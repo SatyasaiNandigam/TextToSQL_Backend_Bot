@@ -75,6 +75,8 @@ START
 END
 ```
 
+> **Planned — Orchestrator sandbox routing:** The `orchestrator` node will be extended to inspect intent and query context and route to a visualization pipeline running in an E2B sandbox, enabling chart and graph generation directly within the agent flow.
+
 ### Retry & Error Handling
 
 ```
@@ -98,7 +100,7 @@ SQL Agent ──► Validator
 |---|---|---|
 | `followup_detector` | Groq Llama-3.1-8B | Detects follow-ups and classifies type (refine, drilldown, explain, etc.) |
 | `followup_rewriter` | gpt-4o-mini | Rewrites context-dependent follow-ups into fully self-contained questions |
-| `orchestrator` | — | Resets all per-turn state fields before each fresh execution |
+| `orchestrator` | — | Resets all per-turn state fields before each fresh execution. **Planned:** will also handle sandbox routing — deciding whether to dispatch to the visualization pipeline (E2B sandbox) based on intent and query context |
 | `intent_classifier` | Groq Llama-3.1-8B | Classifies into 9 intent types (see below) |
 | `schema_retriever` | ChromaDB RAG | Vector similarity + FK graph expansion to retrieve relevant table schemas |
 | `schema_summarizer` | gpt-4o-mini | Condenses retrieved DDL to only the columns relevant to the current question |
