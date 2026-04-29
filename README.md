@@ -43,15 +43,15 @@
 
 ## Architecture
 
-### Agent Pipeline
+### System Architecture
 
-<!-- TODO: Replace the placeholder below with your generated LangGraph agent diagram -->
-run `python pipeline/draw_graph.py` to generate `pipeline/graph.png` locally._
->
-> ![Agent Pipeline Graph](pipeline/graph.png)
-<!-- Once you have a cleaner diagram, swap the path above, e.g.:
-![Agent Pipeline Graph](docs/agent_pipeline.png)
--->
+![System Architecture](assets/architecture.png)
+
+### Agent Pipeline (LangGraph DAG)
+
+> _Run `python pipeline/draw_graph.py` to regenerate this diagram locally._
+
+![Agent Pipeline Graph](pipeline/graph.png)
 
 **Execution flow:**
 
